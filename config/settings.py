@@ -130,13 +130,13 @@ USE_TZ = True
 
 
 STATIC_URL = "static/"
-IS_DEPLOY = env('IS_DEPLOY')
-if IS_DEPLOY == "0":
-    STATICFILES_DIRS = [
-        os.path.join(BASE_DIR,'static'),
-    ]
+# IS_DEPLOY = env('IS_DEPLOY')
+# if IS_DEPLOY == "0":
+#     STATICFILES_DIRS = [
+#         os.path.join(BASE_DIR,'static'),
+#     ]
 
-STATIC_ROOT = str(BASE_DIR / "staticfiles")
+STATIC_ROOT = os.path.join(BASE_DIR,"staticfiles")
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
