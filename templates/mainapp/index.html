@@ -1,18 +1,290 @@
-{% load static %}
+{% extends 'mainapp/base_index.html' %} {% block content %} {% load static %}
+<!-- Hero section-->
+<div class="hero vh-100 d-flex align-items-center" id="home">
+  <div class="container">
+    {% for message in messages %}
+    <div {% if message.tags %}class="{{ message.tags }}" {% endif %}>
+      {{ message }}
+    </div>
 
-<!DOCTYPE html>
-<html lang="ja">
+    {% endfor %}
+    <div class="row">
+      <div class="col-lg-7 mx-auto text-center">
+        <ul class="hero-ul">
+          <li><ion-icon name="chatbubble-ellipses-sharp"></ion-icon>無料個別相談</li>
+          <li><ion-icon name="person-circle"></ion-icon>オンラインマンツーマンレッスン</li>
+          <li><i class='bx bxs-check-square'></i>個別メニュー作成します</li>
+          <li><ion-icon name='mail-open'></ion-icon>レッスン以外の時間で質問対応します</li>
+          <li><ion-icon name="card-outline"></ion-icon>クレジットカード・PayPay対応可</li>
+        </ul>
+        <h2 class="text-white">こんな<span style="color: rgb(255,0,0);">お悩み</span>ありませんか？</h2>
+        <h3 class="text-white"><span style="color: rgb(255,0,0);">腰</span>が痛くて歩くのが辛い</h3>
+        <h3 class="text-white"><span style="color: rgb(255,0,0);">肩</span>が凝って頭も痛い</h3>
 
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-    <title>Django Render</title>
-</head>
+        <!-- <a class="btn btn--orange btn--radius me-2">詳細はこちら<a> -->
+        <a class="btn btn-outline-light btn--radius ms-2">Contact<a>
+      </div>
+    </div>
+  </div>
+</div>
 
-<body>
-    <h1 class="center">How to deploy Django to Render</h1>
-</body>
 
-</html>
+
+<!-- Feature section-->
+<section class="row py-2">
+  <div class="col-lg-6 col-img"></div>
+  <div class="col-lg-6">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10">
+          <h6 class="theme">WHY TO CHOOSE US?</h6>
+          <h1>LBASを選ぶ理由</h1>
+          <p>
+            一般社団法人日本リカバリー協会による調査（2021年11～12月、2022年7～8月）によると20〜70代女性の体の悩み・不調のトップ1が首・肩凝りです。
+            続く2位:目の疲れ　3位:腰の痛みとなっています。特に働き盛りでかつ心身のバランスが崩れ出しやすい40〜50代の方々が不調を訴える傾向にあります。腰と肩の筋肉は背中の筋肉を介してつながっており、お互いに悪影響を及ぼしあうことがあります。
+            それぞれの緊張状態を補い合おうとするからです。長年、店舗型ジムで老若男女への指導の中で培った、ピラティスやヨガのノウハウを持った講師がお客様に寄り添った指導を実施し、多くの女性が
+            悩む腰や肩のトラブル解消のお手伝いをします。
+          </p>
+          <p>参考ページ：https://dime.jp/genre/1548362/ </p>
+
+          <div class="feature d-flex mt-5">
+            <div class="iconbox me-3">
+              <i class='bx bx-tv'></i>
+            </div>
+            <div>
+              <h5>腰と肩を集中的に</h5>
+              <p>ピラティスやヨガの知識を最大限に駆使して腰と肩のトラブル予防、回復を促します。</p>
+            </div>
+          </div>
+          <div class="feature d-flex mt-5">
+            <div class="iconbox me-3">
+              <i class='bx bx-tv'></i>
+            </div>
+            <div>
+              <h5>マンツーマンレッスン</h5>
+              <p>マンツーマンレッスンにより、きめ細やかにお客様の体型、柔軟性、お悩み内容に応じたレッスンを提供します。</p>
+
+            </div>
+          </div>
+          <div class="feature d-flex mt-5">
+            <div class="iconbox me-3">
+              <i class='bx bx-tv'></i>
+            </div>
+            <div>
+              <h5>コミュニケーション</h5>
+              <p>レッスン時間以外にも個別相談の形でお客様と密にコミュニケーションを図り、腰肩のトラブル再発予防や
+                健康促進のための運動習慣をつけていく施策を打っていきます。</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- Service section -->
+
+<section id="service" class="mb-4 bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 mx-auto text-center">
+        <h6 class="theme">FLOW OF SERVICES</h6>
+        <h1>サービスの流れ</h1>
+        <p>//////////////////// <span></span>
+        </p>
+      </div>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-4 col-sm-6">
+        <div class="service card-effect">
+          <div class="iconbox">
+            <i class='bx bx-home-smile'></i>
+          </div>
+          <h5>無料カウンセリング</h5>
+          <div class="card-text">
+            <p>ZOOM上でお客様のお身体に関するお悩みを確認し、それぞれのお悩みに対して適切なメニューをカスタマイズいたします。</p>
+          </div>
+
+
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-sm-6">
+        <div class="service card-effect">
+          <div class="iconbox">
+            <i class='bx bx-tv'></i>
+          </div>
+          <h5>オンラインレッスン</h5>
+          <div class="card-text">
+            <p>ZOOM上でそれぞれにカスタマイズされたレッスンメニューを実施します。</p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-sm-6">
+        <div class="service card-effect">
+          <div class="iconbox">
+            <i class='bx bx-mobile-alt'></i>
+          </div>
+          <h5>日常の健康管理術講座</h5>
+          <div class="card-text">
+            <p>オンラインレッスンをご購入いただいたお客様の中で、レッスン時間だけでは不十分に感じられており、日常的に講師の寄り添った指導を受けたい方へお薦めしています。</p>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--Project section-->
+<section id="projects" class="mb-4">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8 mx-auto text-center">
+        <h6 class="theme">PARTICIPANTS</h6>
+        <h1>受講生の声</h1>
+        <p>これまでの受講生の声をお届けします。</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-8 col-sm-12">
+        <div class="project">
+          <img height="300px" src="{% static 'mainapp/temple.jpg' %}" alt="" />
+
+          <div class="overlay">
+            <div>
+              <h4 class="text-white">Project Title</h4>
+              <h6>Website Design</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="row py-2 bg-light">
+  <div class="col-lg-6 col-img-instructor text-center mb-4">
+    <h6 class="theme">INSTRUCTOR</h6>
+    <h1>講師</h1>
+    <img src="{% static 'mainapp/line_profile.jpg' %}" />
+  </div>
+  <div class="col-lg-6">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10">
+
+          <h1>あい</h1>
+          <p>所持資格：NPO法人日本総合健康指導協会認定ピラティスインストラクター／INSIDEフローヨガ</p>
+          <p>40代 ジムでの指導歴22年</p>
+          <p>趣味：ランニング　サウナ</p>
+          <p>自身も腰痛に悩んだ経験をもとに、腰痛や肩こりでお悩みの皆さんへのエクササイズによるお悩み改善指導をしています☘️</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!--Team section-->
+<!-- <section id="team" class="bg-light pb-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 mx-auto text-center">
+        <h6 class="theme">INSTRUCTOR</h6>
+        <h1>講師</h1>
+        <p>店舗型ジムでの経験豊富な講師がお客様の状態に合わせたメニューを提供します。</p>
+      </div>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-lg-3 col-sm-6">
+        <div class="team-member card-effect text-center">
+          <img src="{% static 'mainapp/line_profile.jpg' %}" />
+          <h5 class="mt-2">あい</h5>
+          <p>所持資格：NPO法人日本総合健康指導協会認定ピラティスインストラクター／INSIDEフローヨガ</p>
+          <p>40代 ジムでの指導歴22年</p>
+          <p>趣味：ランニング　サウナ</p>
+          <p>自身も腰痛に悩んだ経験をもとに、腰痛や肩こりでお悩みの皆さんへのエクササイズによるお悩み改善指導をしています☘️</p>
+          <div class="social-icons">
+            <a class="icon" href="https://twitter.com/lbackshoulder"><iconify-icon
+                icon="simple-icons:x"></iconify-icon></a>
+            <a class="icon" href="https://www.instagram.com/lowerbackandshoulder/"><iconify-icon
+                icon="il:instagram"></iconify-icon></a>
+            <a class="icon" href="https://lin.ee/5CZGcLX"><i class="fa-brands fa-line"></i></a>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6">
+        <div class="team-member card-effect text-center">
+          <img src="{% static 'mainapp/sika.jpg'%}" alt="Responsice image" class="img-fluid">
+          <h5 class="mt-2">Project Title</h5>
+          <p>Website Design</p>
+          <div class="social-icons">
+            <a class="icon" href="#"><i class='bx bxl-twitter'></i></a>
+            <a class="icon" href="#"><i class="fa-brands fa-line"></i></a>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6">
+        <div class="team-member card-effect text-center">
+          <img src="{% static 'mainapp/temple.jpg' %}" />
+          <h5 class="mt-2">Project Title</h5>
+          <p>Website Design</p>
+          <div class="social-icons">
+            <a class="icon" href="#"><i class='bx bxl-twitter'></i></a>
+            <a class="icon" href="#"><i class="fa-brands fa-line"></i></a>
+          </div>
+
+        </div>
+      </div> 
+       <div class="col-lg-3 col-sm-6">
+        <div class="team-member card-effect text-center">
+          <img src="{% static 'mainapp/temple.jpg' %}" />
+          <h5 class="mt-2">Project Title</h5>
+          <p>Website Design</p>
+          <div class="social-icons">
+            <a class="icon" href="#"><i class='bx bxl-twitter'></i></a>
+            <a class="icon" href="#"><i class="fa-brands fa-line"></i></a>
+          </div>
+
+        </div>
+      </div> 
+    </div>
+  </div>
+</section> -->
+
+<!--Blog section-->
+<section id="blog" class="pb-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 mx-auto text-center">
+        <h6 class="theme">BLOG</h6>
+        <h1>ブログ</h1>
+        <p>最新情報の発信欄です。</p>
+      </div>
+    </div>
+
+    <!-- <div class="row g-3">
+      <div class="col-lg-4 col-sm-6">
+        <div class="blog card-effect text-center">
+          <img src="{% static 'mainapp/temple.jpg' %}" />
+          <h5 class="mt-2"><a href="">Post Title</a></h5>
+          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam sint harum quibusdam rem, sequi laboriosam.
+          </p>
+        </div>
+      </div>
+    </div> -->
+  </div>
+</section>
+
+{% endblock %}
