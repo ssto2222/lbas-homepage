@@ -1,0 +1,16 @@
+{% extends 'mainapp/base_index.html' %} {% block content %}
+
+<head>
+  <title>Thanks for your order!</title>
+</head>
+<div class="page-top"></div>
+<div class="wrapper">
+  <h1>Thanks for your order!</h1>
+  <p>
+    {{username}} 様、ご購入ありがとうございました! 注文番号：#
+    ご不明点等ございましたら下記の連絡先まで。
+    <a href="mailto:orders@example.com">orders@example.com</a>.
+  </p>
+</div>
+
+{%endblock%}

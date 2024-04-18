@@ -1,0 +1,24 @@
+{% extends "../base_index.html" %}
+{% block content %}
+<div class="page-top"></div>
+<div class="container">
+    <h1 class="page-title">退会ページ</h1>
+    <p>本当に退会しますか？</p>
+
+    <div class="row d-flex justify-content-center">
+        <form method="post" class="col-3" action="{% url 'mainapp:delete_confirmation'%}">
+            {% csrf_token %}
+            <input type="hidden" name="email" value="{{email}}" />
+            <button type="submit" class="btn btn-danger py-2 mt-3">退会する</button>
+        </form>
+
+        <form method="post" class="col-3" action="{% url 'mainapp:delete_cancel'%}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-secondary py-2 mt-3">キャンセル</button>
+        </form>
+    </div>
+
+</div>
+
+
+{% endblock %}

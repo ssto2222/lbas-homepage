@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="jp">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Tottofare</title>
+    <meta name="description" content="" />
+    <meta name="author" content="ink, cookbook, recipes" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+
+    <!-- Place favicon.ico and apple-touch-icon(s) here  -->
+
+    <link
+      rel="shortcut icon"
+      href="/static/logo.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="https://cdn.ink.sapo.pt/3.1.10/img/touch-icon-iphone.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="76x76"
+      href="https://cdn.ink.sapo.pt/3.1.10/img/touch-icon-ipad.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="120x120"
+      href="https://cdn.ink.sapo.pt/3.1.10/img/touch-icon-iphone-retina.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="152x152"
+      href="https://cdn.ink.sapo.pt/3.1.10/img/touch-icon-ipad-retina.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="https://cdn.ink.sapo.pt/3.1.10/img/splash.320x460.png"
+      media="screen and (min-device-width: 200px) and (max-device-width: 320px) and (orientation:portrait)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="https://cdn.ink.sapo.pt/3.1.10/img/splash.768x1004.png"
+      media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="https://cdn.ink.sapo.pt/3.1.10/img/splash.1024x748.png"
+      media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)"
+    />
+
+    <!-- load Ink's css from the cdn -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.ink.sapo.pt/3.1.10/css/ink-flex.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.ink.sapo.pt/3.1.10/css/font-awesome.min.css"
+    />
+
+    <!-- load Ink's css for IE8 -->
+    <!--[if lt IE 9]>
+      <link
+        rel="stylesheet"
+        href="https://cdn.ink.sapo.pt/3.1.10/css/ink-ie.min.css"
+        type="text/css"
+        media="screen"
+        title="no title"
+        charset="utf-8"
+      />
+    <![endif]-->
+
+    <!-- test browser flexbox support and load legacy grid if unsupported -->
+    <script
+      type="text/javascript"
+      src="https://cdn.ink.sapo.pt/3.1.10/js/modernizr.js"
+    ></script>
+    <script type="text/javascript">
+      Modernizr.load({
+        test: Modernizr.flexbox,
+        nope: "https://cdn.ink.sapo.pt/3.1.10/css/ink-legacy.min.css",
+      });
+    </script>
+    <script
+      src="https://kit.fontawesome.com/71c00e5ffa.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- load Ink's javascript files from the cdn -->
+    <script
+      type="text/javascript"
+      src="https://cdn.ink.sapo.pt/3.1.10/js/holder.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.ink.sapo.pt/3.1.10/js/ink-all.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.ink.sapo.pt/3.1.10/js/autoload.js"
+    ></script>
+
+    <style type="text/css"></style>
+
+    <link
+      rel="stylesheet"
+      href="/static/styles/style.css"
+    />
+  </head>
+
+  <body>
+    <div class="ink-grid">
+      <!--[if lte IE 9 ]>
+            <div class="ink-alert basic" role="alert">
+                <button class="ink-dismiss">&times;</button>
+                <p>
+                    <strong>You are using an outdated Internet Explorer version.</strong>
+                    Please <a href="https://browsehappy.com/">upgrade to a modern browser</a> to improve your web experience.
+                </p>
+            </div>
+            -->
+
+      <!-- Add your site or application content here -->
+      <header class="vertical-space">
+  <h1><a href="/">トットファーレ</a><small>よろずや</small></h1>
+  <nav class="ink-navigation">
+    <ul class="menu horizontal black">
+      <li class="active"><a href="#">item</a></li>
+
+      <li><a href="/quotation">見積もり</a></li>
+      
+      <li class="nav-item">
+        <span class="badge rounded-pill bg-info text-dark"
+          ><a
+            class="nav-link p-2"
+            href="/account/tech2"
+            >ID:tech2</a
+          ></span
+        >
+      </li>
+      <li><a href="/logout">ログアウト</a></li>
+      
+    </ul>
+  </nav>
+</header> 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fetch-jsonp@1.1.3/build/fetch-jsonp.min.js"></script>
+    <script type="text/javascript" src="/static/js/quotation.js"></script>
+
+                <form  method="post" name="myform" class="ink-form column-group horizontal-gutters" >
+                    <div class="all-50 small-100 tiny-100">
+                        <fieldset>
+                            <legend>基本情報 <span class="warning"><strong class="aster">&#10033</strong>印は必須項目です。</span></legend>
+                            <div class="control-group required column-group gutters">
+                                <label for="first-name" class="all-20 align-right">お名前</label>
+                                <div class="control all-40 prepend-symbol">
+                                    <span>
+                                    <input required type="text" name="firstname" id="firstname" value="Yuichiro" placeholder="トットファーレ">
+                                    <i class="fa fa-user"></i>
+                                    </span>
+                                    <p class="tip">名字</p>
+                                </div>
+                                <div class="control all-40">
+                                    <input required type="text" name="lastname" id="lastname" value="Kiguchi" placeholder="太郎">
+                                    <p class="tip">名前</p>
+                                </div>
+                            </div>
+
+                            <div class="control-group required column-group gutters">
+                                <label for="email" class="all-20 align-right">Email</label>
+                                <div class="control all-80 prepend-symbol">
+                                    <span>
+                                    <input required type="text" name="email" id="email" value="tech2metail@gmail.com" placeholder="例）totofare@xxxx.com">
+                                    <i class="fa fa-envelope-o"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="control-group required column-group gutters">
+                                <label for="tel" class="all-20 align-right">ご連絡先</label>
+                                <div class="control all-80 prepend-symbol">
+                                    <span>
+                                    <input required type="text" name="tel" id="tel" value="080" placeholder="例）090xxxxxxxx">
+                                    <i class="fa fa-phone"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="control-group required column-group gutters">
+                                <label for="zipcode" class="all-20 align-right">郵便番号</label>
+                                <div class="control all-40 prepend-symbol">
+                                    <span>
+                                    <input required type="text" id="zipcode" name="zipcode" value="9041201" placeholder="例）1234567">
+                                    <i class="fa fa-address-card"></i>
+                                    </span>
+                                    <p class="tip">郵便番号</p>
+                                </div>
+                                <div class="control all-40">
+                                    <button class="ink-button green" id="search" type="button">住所検索</button>
+                                    <p id="error"></p>
+                                </div>
+                            </div>
+
+                            <div class="control-group required column-group gutters">
+                                <label for="address" class="all-20 align-right">ご住所</label>
+                                <div class="control all-40">
+                                    <input required type="text" id="address1" name="address1" value="沖縄県" placeholder="例）大阪府">
+                                    <p class="tip">都道府県</p>
+                                </div>
+                                <div class="control all-40">
+                                    <input required type="text" id="address2" name="address2" value="国頭郡金武町" placeholder="例）大阪市中央区">
+                                    <p class="tip">市区町村</p>
+                                </div>
+                            </div>
+
+                            <div class="control-group column-group gutters">
+                                <label for="address" class="all-20 align-right"></label>
+                                <div class="control all-80">
+                                    <input type="text" id="address3" name="address3" value="金武" placeholder="例）大阪城1−1">
+                                    <p class="tip">町域</p>
+                                </div>
+                            </div>
+
+                            <div class="control-group column-group gutters">
+                                <label for="address" class="all-20 align-right"></label>
+                                <div class="control all-80">
+                                    <input type="text" id="address4" name="address4" value="" placeholder="例）よろずや504号室">
+                                    <p class="tip">建物名等</p>
+                                </div>
+                            </div>
+
+                            <div class="control-group column-group gutters">
+                                <label for="area" class="all-20 align-right" >備考</label>
+                                <div  class="control all-80">
+                                    <textarea id="area" name="area" value="" maxlength="50" placeholder="お問い合わせ内容等をご記入ください。写真やファイルはお見積り情報の３.参考情報にアップロードしてください。"></textarea>
+                                </div>
+                            </div>
+                            <input class="ink-button green" type="submit" id="b1" name="b1" value="一時保存">
+                            <input type="hidden" name="checkB1" id="checkB1"  value="">
+                        </fieldset>
+                        
+                    </div>
+                
+
+                    <div class="all-50 small-100 tiny-100">
+                        <fieldset class="all-100 small-100 tiny-100">
+                             <legend>お見積もり情報</legend>
+                            <div class="control-group">
+                                <p class="label">１. サービス内容</p>
+                                <ul class="control all-100 unstyled">
+                                    <li><input type="checkbox" id="cb2" name="check" value="2" ><label for="cb2">片付け・遺品整理</label></li>
+                                    <li class="control-group all-100 column-group horizontal-gutters" name="ele2" id="ele2">
+                                        
+                                            <label class="all-30 align-left" for="ele2">建物種類</label>
+                                            <div class="control all-80">
+                                                <input type="hidden" value="">
+                                                <select class="align-left" name="building-selection">
+                                                    <option value="null" disabled>未選択</option>
+                                                    <option value="集合住宅">集合住宅</option>
+                                                    <option value="一軒家">一軒家</option>
+                                                    <option value="その他・倉庫等">その他・倉庫等</option>
+                                                </select>
+                                            </div>
+                                    </li>
+
+                                    <li class="control-group all-100 column-group horizontal-gutters" name="ele2" id="ele2">
+                                        <label class="all-30 align-left" for="ele2">間取り<span class="small">（一部のお部屋のみの場合も対象部屋数相当の間取りをお選びください。）</span></label>
+                                        <div class="control all-80">
+                                            <select class="all-70 align-left" name="rooms-selection">
+                                                <option value="null" disabled>未選択</option>
+                                                <option value="1K">1K</option>
+                                                <option value="1DK">1DK</option>
+                                                <option value="1LDK">1LDK</option>
+                                                <option value="2DK">2DK</option>
+                                                <option value="2LDK">2LDK</option>
+                                                <option value="3DK">3DK</option>
+                                                <option value="3LDK">3LDK</option>
+                                                <option value="4DK">4DK</option>
+                                                <option value="4LDK">4LDK</option>
+                                                <option value="5LDK">5LDK以上</option>
+                                            </select>
+                                        </div>
+                                    </li>
+
+                                    <li class="control-group all-100 column-group horizontal-gutters" name="ele2" id="ele2">
+                                        <label class="all-30 align-left" for="ele2">階数<span class="small">（集合建物以外は総階数）</span></label>
+                                        <div class="control all-80">
+                                            <select class="all-70 align-left" name="floor-selection">
+                                                <option value="null" disabled>未選択</option>
+                                                <option value="1F">1F</option>
+                                                <option value="2F">2F</option>
+                                                <option value="3F">3F</option>
+                                                <option value="4F">4F</option>
+                                                <option value="5F">5F以上</option>
+                                            </select>
+                                        </div>
+                                    </li>
+
+                                    <li class="control-group all-100 column-group horizontal-gutters" name="ele2" id="ele2">
+                                        <label class="all-30 align-left" for="ele2">エレベータ有無<span class="small"></span></label>
+                                        <div class="control all-80">
+                                            <select class="control all-70 align-left" name="elevator-selection">
+                                                <option value="null" disabled>未選択</option>
+                                                <option value="no">なし</option>
+                                                <option value="yes">あり</option>
+                                            </select>
+                                        </div>
+                                    </li>
+                            
+                                    <li><input type="checkbox" id="cb1" name="check" value="1" ><label for="cb1">電化製品修理</label></li>
+                                    <div class="control-group column-group horizontal-gutters" name="ele1" id="ele1">
+                                        <label class="all-30 align-right" for="ele1">種類</label>
+                                        <div class="control all-80">
+                                            <select class="control all-70" name="equipment-selection">
+                                                <option value="null" disabled>未選択</option>
+                                                <option value="washing">洗濯機</option>
+                                                <option value="tv">テレビ・周辺機器</option>
+                                                <option value="pc">パソコン</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </ul>
+                            </div>
+
+                            <div class="control-group">
+                                <p class="label">２. 希望納期（特にない場合は二週間を目処としてください。）</p>
+                                <input type="date" class="deadline" id="date" name="date" value="">
+                            </div>
+
+                            <div class="control-group">
+                                    <p class="label">３. 資料情報</p>
+                                    <div  class="control all-100">
+                                        <div class="input-file">
+                                            <input type="file" name="ref1" id="file-input">
+                                        </div>
+                                    </div>
+                                    <div  class="control all-100">
+                                        <div class="input-file">
+                                            <input type="file" name="ref2" id="file-input">
+                                        </div>
+                                    </div>
+                                    <div  class="control all-100">
+                                        <div class="input-file">
+                                            <input type="file" name="ref3" id="file-input">
+                                        </div>
+                                    </div>
+                            </div>
+                            <input class="ink-button green" type="submit" id="b2" name="b2"  value="見積依頼を送信">
+                            <input type="hidden" name="checkB2" id="checkB2" value="">
+                        </fieldset>
+                    </div>
+                </form>
+   
+
+    </div>
+
+    <footer class="clearfix">
+  <div class="ink-grid">
+    <ul class="unstyled inline half-vertical-space">
+      <li class="active"><a href="#">About</a></li>
+      <li><a href="#">Sitemap</a></li>
+      <li><a href="#">Contacts</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+    </ul>
+    <p class="note">&copy2022 Tottofare powered by tech2metail</p>
+  </div>
+</footer>
+  </body>
+</html>
