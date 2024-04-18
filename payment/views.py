@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.views.generic import View
 from django.views.generic.base import TemplateView
-from orders.views import payment_confirmation
+#from orders.views import payment_confirmation
 
 from basket.basket import Basket
 import os,json

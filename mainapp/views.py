@@ -16,7 +16,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,logout
 from django.core.mail import send_mail
-from orders.views import user_orders
+#from orders.views import user_orders
 
 import os
 
