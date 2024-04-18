@@ -1,0 +1,232 @@
+{% extends 'mainapp/base_index.html' %} {% block content %} {% load static %}
+{% load humanize %}
+<link rel="stylesheet" href="{% static 'payment/styles/checkout.css' %}" />
+
+<body class="bg-light">
+  <div class="page-top"></div>
+  <div class="container mb-4">
+
+    <div class="payment-title ">
+
+      <h1 class="page-top-title pt-3">お支払いページ</h1>
+      <input type='hidden' id="userid" value="{{user.id}}" />
+      <p class="text-white mx-5 ">以下に必要項目をご入力ください。</p>
+    </div>
+
+    <div class="row mt-2 g-5">
+      <div class="col-md-5 col-lg-4 order-md-last">
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-info">買い物かご</span>
+          {% with total_qty=basket|length %}
+          <span id="basket-qty" class="badge bg-info rounded-pill">
+            {% if total_qty > 0 %}
+            {{total_qty}}
+            {% else %}
+            0
+            {% endif %}
+          </span>
+          {% endwith %}
+        </h4>
+        <ul class="list-group mb-3">
+
+          {% for item in basket %}
+          {% with product=item.product %}
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+              <h6 class="my-0">{{product.title}}</h6>
+              <p>開始ご希望日：{{item.date}}</p>
+            </div>
+            <span class="text-muted">¥{{product.price|intcomma}}</span>
+          </li>
+          {% endwith %}
+          {% endfor %}
+          <li class="list-group-item d-flex justify-content-between">
+            <span>計</span>
+            <strong>¥{{basket.get_total_price|intcomma}}</strong>
+          </li>
+          {% if discount|length > 0 %}
+          {% for item in discount %}
+          <li class="list-group-item d-flex justify-content-between bg-light">
+            <div class="text-success">
+              <h6 class="my-0">備考</h6>
+              <small>{{item.type}}</small>
+            </div>
+            <span class="text-success">¥{{item.price}}</span>
+          </li>
+          {% endfor %}
+          {% endif %}
+          <li class="list-group-item d-flex justify-content-between">
+            <span>お支払い額</span>
+            <strong>{{amount_text}}</strong>
+            <input type="hidden" id="amount" value="{{amount}}" />
+          </li>
+        </ul>
+        <input type="hidden" id="payment_type" value="{{payment_type}}" />
+      </div>
+      <div class="col-md-7 col-lg-8">
+        <h4 class="mb-3">お支払い情報</h4>
+        <form class="needs-validation" id="payment-form" action="{%url 'orders:add' %}">
+          {% csrf_token %}
+          <div class="row g-3">
+            <div class="col-sm-12">
+              <label for="fullName" class="form-label">お名前</label>
+              <input type="text" class="form-control" id="fullName" name="fullname" placeholder=""
+                value="{{user.profile.username}}" required>
+              <div class="invalid-feedback">
+                お名前をご入力ください。
+              </div>
+            </div>
+
+
+            <div class="col-12">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com"
+                value="{{user.email}}" required>
+              <div class="invalid-feedback">
+                emailをご入力ください。
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <label for="zip" class="form-label">郵便番号</label>
+              <input type="text" class="form-control" id="zipcode" name="zipcode" value="{{ user.profile.zipcode}}"
+                required>
+              <div class="invalid-feedback">
+                郵便番号が必要です。
+              </div>
+            </div>
+
+            <div class="col-md-4 d-grid">
+              <label for="zip" class="form-label">住所→郵便番号</label>
+              <button class="btn btn-info" id="search" type="button">郵便番号検索</button>
+              <p id="error"></p>
+            </div>
+
+            <div class="col-md-4">
+              <label for="state" class="form-label">都道府県</label>
+              <input type="hidden" id="address1" name="address1" value="{{user.profile.prefecture}}"
+                placeholder="例）大阪府">
+              <select class="form-select" name="pref_name" id="pref_name" required>
+                <option value="" selected>選択してください</option>
+                <option value="北海道">北海道</option>
+                <option value="青森県">青森県</option>
+                <option value="岩手県">岩手県</option>
+                <option value="宮城県">宮城県</option>
+                <option value="秋田県">秋田県</option>
+                <option value="山形県">山形県</option>
+                <option value="福島県">福島県</option>
+                <option value="茨城県">茨城県</option>
+                <option value="栃木県">栃木県</option>
+                <option value="群馬県">群馬県</option>
+                <option value="埼玉県">埼玉県</option>
+                <option value="千葉県">千葉県</option>
+                <option value="東京都">東京都</option>
+                <option value="神奈川県">神奈川県</option>
+                <option value="新潟県">新潟県</option>
+                <option value="富山県">富山県</option>
+                <option value="石川県">石川県</option>
+                <option value="福井県">福井県</option>
+                <option value="山梨県">山梨県</option>
+                <option value="長野県">長野県</option>
+                <option value="岐阜県">岐阜県</option>
+                <option value="静岡県">静岡県</option>
+                <option value="愛知県">愛知県</option>
+                <option value="三重県">三重県</option>
+                <option value="滋賀県">滋賀県</option>
+                <option value="京都府">京都府</option>
+                <option value="大阪府">大阪府</option>
+                <option value="兵庫県">兵庫県</option>
+                <option value="奈良県">奈良県</option>
+                <option value="和歌山県">和歌山県</option>
+                <option value="鳥取県">鳥取県</option>
+                <option value="島根県">島根県</option>
+                <option value="岡山県">岡山県</option>
+                <option value="広島県">広島県</option>
+                <option value="山口県">山口県</option>
+                <option value="徳島県">徳島県</option>
+                <option value="香川県">香川県</option>
+                <option value="愛媛県">愛媛県</option>
+                <option value="高知県">高知県</option>
+                <option value="福岡県">福岡県</option>
+                <option value="佐賀県">佐賀県</option>
+                <option value="長崎県">長崎県</option>
+                <option value="熊本県">熊本県</option>
+                <option value="大分県">大分県</option>
+                <option value="宮崎県">宮崎県</option>
+                <option value="鹿児島県">鹿児島県</option>
+                <option value="沖縄県">沖縄県</option>
+              </select>
+              <div class="invalid-feedback">
+                都道府県を選択してください。
+              </div>
+            </div>
+
+
+
+
+
+
+            <div class="col-12">
+              <label for="address" class="form-label">市区町村</label>
+              <input type="text" class="form-control" id="address2" name="address2" value="{{ user.profile.city }}"
+                required>
+              <div class="invalid-feedback">
+                住所を入力してください。
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="address2" class="form-label">町域 </label>
+              <input type="text" class="form-control" id="address3" name="address3" placeholder=""
+                value="{{ user.profile.address1}}" required>
+              <div class="invalid-feedback">
+                町域を入力してください。
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="address2" class="form-label">建物名・部屋番号<span class="text-muted">(Optional)</span></label>
+              <input type="text" class="form-control" id="address4" name="address4" placeholder=""
+                value="{{ user.profile.address2}}">
+            </div>
+          </div>
+
+          <hr class="my-4">
+
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="save-info">
+            <label class="form-check-label" for="save-info">アカウント情報に保存する</label>
+          </div>
+
+          <hr class="my-4">
+          <h4>カード情報入力</h4>
+          <label for="card-element">Credit or debit card</label>
+          <div id="card-errors"></div>
+          <div id="card-element" class="form-control form-control-payment">
+            <!-- Payment elements will appear here -->
+          </div>
+          <hr class="my-4">
+          <input type="hidden" id="payment_intent_id" name="payment_intent_id" value="{{payment_intent_id}}" />
+          <input type="hidden" name="stripe_plan_id" value="{{stripe_plan_id}" />
+          <button id="submit" class="btn btn-custom w-100 fw-bold" data-secret="{{ client_secret }}">お支払い</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'mainapp/js/form-validation.js' %}"></script>
+  <script src="{% static 'mainapp/js/search_address.js' %}"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+
+  <script>
+    let CSRF_TOKEN = '{{ csrf_token}}';
+    let userid = document.getElementById("userid").value;
+    let payment_intent_id = document.getElementById("payment_intent_id").value;
+  </script>
+  <script src="https://js.stripe.com/v3/"></script>
+  <script src="{% static 'payment/js/index.js' %}" data-rel-js></script>
+  <script>card('{{STRIPE_PUBLISHED_KEY}}', '{{customer_email}}')</script>
+</body>
+
+
+{% endblock %}

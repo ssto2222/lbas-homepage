@@ -1,0 +1,133 @@
+{% extends '../../mainapp/base_index.html' %}{% load static %}
+{% load humanize %}
+{% block content%}
+<div class="page-top"></div>
+<div class="container">
+    {% for message in messages %}
+    <div {% if message.tags %}class="{{ message.tags }}" {% endif %}>
+        {{ message }}
+    </div>
+
+    {% endfor %}
+    <main class="pt-5">
+        <div class="row g-3">
+            <div class="col-md-5 col-lg-5 order-md-first bg-light">
+                <img class="img-fluid mx-auto d-block" width="200px" src="{{ product.image.url}}"
+                    alt="Responsive image">
+            </div>
+            <div class="col-md-7 col-lg-7 ps-md-3 ps-lg-5">
+                <h1 class="mb-0 h4">{{product.title}}</h1>
+
+                <p>{{ product.description| slice:":355"}} Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                    Tenetur nobis veniam voluptate aut quae, accusamus minus dolorum fugit, voluptatem quo odit
+                    assumenda? Reiciendis in explicabo voluptas quis nostrum quaerat ad!</p>
+                <div class="border">
+                    <div class="col border-bottom">
+                        <div class="row p-3">
+                            <div class="col-6">
+                                <a href="{% url 'store:product_all'%}">
+                                    <<戻る </a>
+                            </div>
+                            <div class="col-6 text-end"><span class="h4 fw-bold"></span>¥{{product.price|intcomma}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row p-3">
+                            <div class="col-4">
+                                <label for="select">期間（ヶ月）</label>
+                                <select name="" id="select">
+                                    <option value="">1</option>
+                                    <option value="">2</option>
+                                    <option value="">3</option>
+                                    <option value="">4</option>
+                                    <option value="">5</option>
+                                    <option value="">6</option>
+                                    <option value="">7</option>
+                                    <option value="">8</option>
+                                    <option value="">9</option>
+                                    <option value="">10</option>
+                                    <option value="">11</option>
+                                    <option value="">12</option>
+                                </select>
+                            </div>
+                            <!-- <div class="col-8">
+                                <label for="select">受講開始ご希望日</label>
+                                <input type="date" class="deadline" id="date" name="date">
+                            </div> -->
+
+                        </div>
+                        <div class="row p-3">
+                            <div class="col-12 text-end"><button type="button" id="add-button" value="{{product.id}}"
+                                    class="btn btn-secondary btn-sm">買い物かごに入れる</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<script>
+    // 今日の日付を取得
+    const today = new Date();
+
+    // 2週間後の日付を計算
+    const twoWeeksLater = new Date(today.getTime() + (15 * 24 * 60 * 60 * 1000));
+    //let mintwoWeeksLater = new Date(today.getTime() + (15 * 24 * 60 * 60 * 1000));
+
+    // input要素のmin属性に設定
+    //let date_input = document.getElementById("date");
+    //date_input.min = twoWeeksLater.toISOString().split("T")[0];
+
+    // YYYY-MM-DD形式に変換
+    //let yyyy = twoWeeksLater.getFullYear();
+    //let mm = String(twoWeeksLater.getMonth() + 1).padStart(2, '0');
+    //let dd = String(twoWeeksLater.getDate()).padStart(2, '0');
+    ///let dateString = `${yyyy}-${mm}-${dd}`;
+
+
+    // input要素のvalue属性に設定
+    //date_input.value = dateString;
+
+
+
+
+    $(document).on('click', '#add-button', function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "basket:basket_add" %}',
+            data: {
+                productid: $('#add-button').val(),
+                productqty: $('#select option:selected').text(),
+                date: $('#date').val(),
+                csrfmiddlewaretoken: "{{csrf_token}}",
+                action: 'post'
+            },
+
+            success: function (json) {
+                document.getElementById('basket-qty').innerHTML = json.qty
+                _showAlert(json.message, json.is_added)
+            },
+            error: function (xhr, errmsg, err) {
+
+            }
+        });
+    })
+
+    function _showAlert(msg, is_added) {
+        if (is_added) var $alert = $('<div>').prependTo($('.container')).addClass('alert rounded-0 alert alert-success');
+        else var $alert = $('<div>').prependTo($('.container')).addClass('alert rounded-0 alert alert-danger');
+        $alert.hide().text(msg).fadeIn(3000, function () {
+            $alert.fadeOut(3000, function () {
+                $alert.remove();
+
+            });
+        });
+
+    }
+</script>
+{%endblock%}

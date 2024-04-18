@@ -1,0 +1,43 @@
+{% extends 'mainapp/base_index.html' %}{% load static %}
+{% load humanize %}
+{% block extra_js %}
+<link rel="stylesheet" href="{% static 'payment/styles/checkout.css' %}" />
+<link rel="stylesheet" href="{% static 'payment/styles/base.css' %}" />
+
+{% endblock extra_js %} {% block extra_css %} {% endblock extra_css %}
+{% block content %}
+<div class="page-top"></div>
+<div class="container">
+  <h1 class="page-title">支払い画面</h1>
+
+  <h4>カード情報入力</h4>
+  <!-- Display a payment form -->
+  <!--Example 2-->
+  <div class="cell example example2" id="example-2">
+    <form class="payment-form" id="payment-form">
+      {% csrf_token %}
+      <label for="card-element">Credit or debit card</label>
+      <div id="card-element" class="form-control form-control-payment">
+        <!-- Payment elements will appear here -->
+      </div>
+      <hr class="my-4">
+      <div class="col-md-12 d-grid mt-4">
+        <button type="submit" class="btn btn-custom" id="submit"
+          data-secret="{{client_secret}}">¥{{basket.get_total_price|intcomma}}
+          の支払い</button>
+      </div>
+
+      <div class="error" id="card-errors" role="alert"></div>
+    </form>
+
+  </div>
+
+
+
+</div>
+<script src="https://js.stripe.com/v3/"></script>
+
+<script src="{% static 'payment/js/index.js' %}" data-rel-js></script>
+<!-- <script src="{% static 'payment/js/card.js' %}" data-rel-js></script> -->
+
+{% endblock %}

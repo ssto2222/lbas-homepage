@@ -1,0 +1,35 @@
+{% extends '../mainapp/base_index.html' %} {% block content %} {% load static %}
+<div class="column-group gutters">
+  <div class="all-100 small-100 tiny-100">
+    <h3>Blog記事一覧</h3>
+    {% for obj in page_obj %}
+    <div class="card">
+      <div class="card-body">
+        <h5>{{obj.title}}</h5>
+        <p class="quarter-top-space">{{obj.created_at}} by {{obj.author}}</p>
+        <p>
+          <a href="/blog/{{obj.id}}" class="stretched-link">続きはこちら</a>
+        </p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<nav class="ink-navigation">
+  <ul class="pagination black">
+    {% if page_obj.has_previous %}
+    <li class="disabled"><a href="?page=1">&laquo First</a></li>
+    <li class="disabled"><a href="?page={{page_obj.previous_page_number}}">Previous</a></li>
+    {% endif %}
+    {% for i in page_range %}
+    <li><a href="?page={{i}}">{{i}}</a></li>
+    {% endfor %}
+    {% if page_obj.has_next %}
+    <li><a href="?page={{page_obj.next_page_number}}">Next</a></li>
+    <li><a href="?page={{page_obj.paginator.num_pages}}">Last</a></li>
+    {% endif %}
+  </ul>
+</nav>
+</div>
+</div>
+{% endblock %}

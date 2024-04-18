@@ -1,0 +1,30 @@
+{% extends '../../mainapp/base_index.html' %}{% load static %}
+
+{% block content%}
+<div class="page-top"></div>
+<div class="container" style="max-width: 1000px">
+    <h1 class="page-title">カテゴリー別製品ページ</h1>
+    {% include '../snippets/dropdown.html'%}
+    <div class="container mt-3">
+        <div class="pb-3 h5">
+            <div class="row g-3">
+                {% for product in products %}
+                <div class="col-lg-3 col-sm-6">
+                    <div class="service-item card-effect text-center">
+                        <img src="{{product.image.url}}" alt="Responsice image" class="img-fluid">
+                        <h5 class="mt-2"><a href="{% url 'store:product_single' product.slug %}"
+                                class="text-dark text-decoration-none">{{product.title}}</a></h5>
+                        <p>{{product.description}}</p>
+                        <small class="text-muted">9min read</small>
+
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+{%endblock%}
