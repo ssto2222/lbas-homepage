@@ -35,7 +35,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-AUTH_USER_MODEL = 'mainapp.User'
+AUTH_USER_MODEL = 'mainapp.user'
 
 LOGIN_URL = '/login/'
 
