@@ -17,7 +17,7 @@ import os
 import environ
 from decouple import config
 from dj_database_url import parse as dburl
-#from mainapp.models.user_models import User
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
