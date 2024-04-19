@@ -5,15 +5,36 @@ from django.conf import settings
 from mainapp.models.user_models import User
 
 #User = get_user_model()
-
+usermanager = UserManager()
+# 
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
         if not User.objects.filter(email=settings.SUPERUSER_NAME).exists():
-            UserManager.create_superuser(
-                self,
+            usermanager.create_superuser(
                 email=settings.SUPERUSER_EMAIL,
                 password=settings.SUPERUSER_PASSWORD
             )
             
             print("スーパーユーザー作成")
+
+#class UserManager(BaseUserManager):
+#     def create_user(self,email,password=None):
+#         if not email:
+#             raise ValueError('Users must have an email address')
+#         user = self.model(
+#             email=self.normalize_email(email),
+#         )
+#         user.set_password(password)
+#         user.save(using=self._db)
+#         return user
+
+#     def create_superuser(self,email,password=None):
+#         user = self.create_user(
+#             email,
+#             password=password
+#         )
+#         user.is_admin = True
+#         user.is_active = True
+#         user.save(using=self._db)
+#         return user
