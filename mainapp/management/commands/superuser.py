@@ -1,8 +1,9 @@
 from django.core.management.base import BaseCommand
-from django.contrib.auth import get_user_model
+#from django.contrib.auth import get_user_model
 from django.conf import settings
+from ....mainapp.models.user_models import User
 
-User = get_user_model()
+#User = get_user_model()
 
 
 class Command(BaseCommand):

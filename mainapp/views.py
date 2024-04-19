@@ -38,12 +38,12 @@ def signup(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            #user.is_active = False
+            user.is_active = False
             user.save()
-            # login(request,user)
-            # messages.success(request,"登録完了！")
+            login(request,user)
+            messages.success(request,"登録完了！")
             current_site = get_current_site(request)
-            subject = 'Tuttofareアカウントをアクティベートしてください'
+            subject = 'LBASアカウントをアクティベートしてください'
             message = render_to_string('mainapp/registration/account_activation_email.html', {
                 'user': user,
                 'domain': current_site.domain,
@@ -87,9 +87,9 @@ class Login(LoginView):
         messages.error(self.request, "ログイン失敗！")
         return super().form_invalid(form)
 
-# def logout(request):
-#     context={}
-#     return render(request,'mainapp/logout.html',context)
+def logout(request):
+    context={}
+    return render(request,'mainapp/logout.html',context)
 
 @login_required
 def dashboard(request):
@@ -160,13 +160,13 @@ def account_update(request):
 @login_required
 def delete_user(request):
     context={'email':request.user.email}
-    # if request.method == 'POST':
-    #     redirect_url = reverse('mainapp:delete_confirmation')
-    #     email=request.user.email
+    if request.method == 'POST':
+        redirect_url = reverse('mainapp:delete_confirmation')
+        email=request.user.email
         
-    #     params=urlencode({'email':email})
-    #     url=f'{redirect_url}?{params}'
-    #     return redirect(url)
+        params=urlencode({'email':email})
+        url=f'{redirect_url}?{params}'
+        return redirect(url)
     return render(request,'mainapp/user/delete_confirmation.html',context)
 
 @login_required
