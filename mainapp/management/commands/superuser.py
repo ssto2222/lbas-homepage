@@ -11,6 +11,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if not User.objects.filter(email=settings.SUPERUSER_NAME).exists():
             UserManager.create_superuser(
+                self,
                 email=settings.SUPERUSER_EMAIL,
                 password=settings.SUPERUSER_PASSWORD
             )
