@@ -18,7 +18,7 @@ import environ
 from decouple import config
 from dj_database_url import parse as dburl
 
-
+CSRF_TRUSTED_ORIGINS=['https://lbas.onrender.com/']
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()

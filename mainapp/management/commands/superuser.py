@@ -15,13 +15,14 @@ class Command(BaseCommand):
     help = 'Automatically creates a superuser'
 
     def handle(self, *args, **kwargs):
-        email = settings.SUPERUSER_EMAIL
-        password = settings.SUPERUSER_PASSWORD
+        if not User.objects.filter(email=settings.SUPERUSER_NAME).exists():
+            email = settings.SUPERUSER_EMAIL
+            password = settings.SUPERUSER_PASSWORD
 
-        # createsuperuserコマンドを呼び出してスーパーユーザーを作成
-        call_command('createsuperuser', email=email, interactive=False)
+            # createsuperuserコマンドを呼び出してスーパーユーザーを作成
+            call_command('createsuperuser', email=email, password=password, interactive=False)
 
-        self.stdout.write(self.style.SUCCESS('Superuser created successfully: {}'.format(email)))
+            self.stdout.write(self.style.SUCCESS('Superuser created successfully: {}'.format(email)))
 
 # class Command(BaseCommand):
 #     def handle(self, *args, **options):
