@@ -8,16 +8,31 @@ from mainapp.models.user_models import User
 
 # 
 
+from django.contrib.auth.management.commands import createsuperuser
+from django.core.management import call_command
+
 class Command(BaseCommand):
-    def handle(self, *args, **options):
-        usermanager = UserManager()
-        if not User.objects.filter(email=settings.SUPERUSER_NAME).exists():
-            usermanager.create_superuser(
-                email=settings.SUPERUSER_EMAIL,
-                password=settings.SUPERUSER_PASSWORD
-            )
+    help = 'Automatically creates a superuser'
+
+    def handle(self, *args, **kwargs):
+        email = settings.SUPERUSER_EMAIL
+        password = settings.SUPERUSER_PASSWORD
+
+        # createsuperuserコマンドを呼び出してスーパーユーザーを作成
+        call_command('createsuperuser', email=email, interactive=False)
+
+        self.stdout.write(self.style.SUCCESS('Superuser created successfully: {}'.format(email)))
+
+# class Command(BaseCommand):
+#     def handle(self, *args, **options):
+#         usermanager = UserManager()
+#         if not User.objects.filter(email=settings.SUPERUSER_NAME).exists():
+#             usermanager.create_superuser(
+#                 email=settings.SUPERUSER_EMAIL,
+#                 password=settings.SUPERUSER_PASSWORD
+#             )
             
-            print("スーパーユーザー作成")
+#             print("スーパーユーザー作成")
 
 #class UserManager(BaseUserManager):
 #     def create_user(self,email,password=None):
