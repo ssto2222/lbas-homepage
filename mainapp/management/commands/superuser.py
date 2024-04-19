@@ -5,11 +5,12 @@ from django.conf import settings
 from mainapp.models.user_models import User
 
 #User = get_user_model()
-usermanager = UserManager()
+
 # 
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
+        usermanager = UserManager()
         if not User.objects.filter(email=settings.SUPERUSER_NAME).exists():
             usermanager.create_superuser(
                 email=settings.SUPERUSER_EMAIL,
