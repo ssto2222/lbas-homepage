@@ -18,6 +18,7 @@ import environ
 from decouple import config
 from dj_database_url import parse as dburl
 
+
 CSRF_TRUSTED_ORIGINS=['https://lbas.onrender.com/']
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -28,10 +29,25 @@ env.read_env(os.path.join(BASE_DIR, ".env"))
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+if DEBUG:
+    try:
+        import yaml
+        with open(os.path.join(BASE_DIR,'secret','secret.yaml')) as f:
+            objs = yaml.safe_load(f)
+            for obj in objs['env_variables']:
+                os.environ[obj] = objs['env_variables'][obj]
+    except:
+        print('no yaml files')
+    
+SECRET_KEY = os.environ['SECRET_KEY']
+#stripe設定
+STRIPE_SECRET_KEY=os.environ['STRIPE_SECRET_KEY']
+STRIPE_PUBLISHED_KEY=os.environ['STRIPE_PUBLISHED_KEY']
 
 ALLOWED_HOSTS = ['*']
 
@@ -166,8 +182,8 @@ MESSAGE_TAGS = {
 
 #---Gmail 送信設定
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.hostinger.com'
-EMAIL_PORT = 465  
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']

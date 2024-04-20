@@ -10,6 +10,12 @@
     <p class="px-5 text-white">お問合せはこちらからどうぞ。</p>
   </div>
   <div class="container">
+    {% for message in messages %}
+    <div {% if message.tags %}class="{{ message.tags }}" {% endif %}>
+      {{ message }}
+    </div>
+
+    {% endfor %}
     <div class="row">
       <div class="col-md-8 mx-auto text-center">
         <h6 class="theme">CONTACT</h6>
@@ -19,16 +25,16 @@
     <form method="POST" class="row g-3 justify-content-center">
       {% csrf_token %}
       <div class="col-md-5">
-        <input type="text" class="form-control" placeholder="お名前">
+        <input type="text" name="name" class="form-control" placeholder="お名前">
       </div>
       <div class="col-md-5">
-        <input type="email" class="form-control" placeholder="email アドレス">
+        <input type="email" name="email" class="form-control" placeholder="email アドレス">
       </div>
       <div class="col-md-10">
-        <input type="text" class="form-control" placeholder="件名">
+        <input type="text" name="subject" class="form-control" placeholder="件名">
       </div>
       <div class="col-md-10">
-        <textarea rows="5" class="form-control" placeholder="お問合せ内容をご記入ください"></textarea>
+        <textarea rows="5" name="content" class="form-control" placeholder="お問合せ内容をご記入ください"></textarea>
       </div>
       <div class="col-md-10 d-grid">
         <button type="submit" class="btn btn-info">Contact</button>

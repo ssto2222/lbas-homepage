@@ -197,19 +197,24 @@ def contact(request):
     context = {}
     if request.method == 'POST':
         print("contact posted")
-        subject = "お問い合わせがありました。"
+        subject = request.POST.get('subject')
         message = "お問い合わせがありました。\n名前: {}\nメールアドレス: {}\n内容: {}".format(
                     request.POST.get('name'),
                     request.POST.get('email'),
                     request.POST.get('content'))        
         
-        email_from = settings.EMAIL_HOST_USER
+        email_from = settings.DEFAULT_FROM_EMAIL
         email_to = [
-        settings.EMAIL_HOST_USER, 
+        settings.DEFAULT_FROM_EMAIL, 
         ]
-        print(email_from)
+        print("{}, {} ".format(email_from,settings.EMAIL_HOST_PASSWORD))
         
-        send_mail(subject,message, email_from,email_to)
+        send_mail(subject,
+                  message, 
+                  email_from,
+                  email_to,
+                  fail_silently=True,
+                  )
         messages.success(request,'お問い合わせいただきありがとうございました。ご入力内容が送信されました。')
     return render(request,'mainapp/contact.html',context)
 
