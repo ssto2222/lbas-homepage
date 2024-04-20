@@ -35,7 +35,7 @@ class User(AbstractBaseUser):
             message,
             email_from,
             email_to,
-            fail_silently=False,
+            fail_silently=True,
         )
     
     @property

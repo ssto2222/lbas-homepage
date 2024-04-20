@@ -34,7 +34,7 @@ def signup(request):
     # if request.user.is_authenticated:
     #     return redirect('/')
     if request.method == 'POST':
-        print("request post is ok")
+        
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
@@ -50,10 +50,12 @@ def signup(request):
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
             })
+            print(message)
             user.email_user(subject=subject, message=message)
             my_text = '新規登録が成功しました。\nアクティベーション用のリンクをご登録メールにお送りしました。\
                 \n（迷惑メールフォルダに入っている可能性があります。）\
                 \nregistered succesfully and activation sent'
+            print("request post is ok")
             return HttpResponse(my_text.encode('Shift_JIS'),content_type='text/plain')
         else:
             context = {'form':form}
@@ -225,9 +227,6 @@ def success(request):
 def cancel(request):
     context={}
     return render(request,'mainapp/cancel.html',context)
-
-
-
 
 
 
