@@ -27,8 +27,8 @@ class User(AbstractBaseUser):
         return True
     
     def email_user(self, subject, message):
-        email_from = os.environ['EMAIL_HOST_USER']
-        #email_from = settings.DEFAULT_FROM_EMAIL
+        #email_from = os.environ['EMAIL_HOST_USER']
+        email_from = settings.DEFAULT_FROM_EMAIL
         email_to = [self.email]
         send_mail(
             subject,

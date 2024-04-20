@@ -16,6 +16,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,logout
 from django.core.mail import send_mail
+from config import settings
 #from orders.views import user_orders
 
 import os
@@ -98,9 +99,9 @@ def dashboard(request):
     context={}
     try:
         orders = user_orders(request)['orders']
-        preorders = user_orders(request)['preorders']
-        context['orders']=orders
-        context['preorders']=preorders
+        #preorders = user_orders(request)['preorders']
+        #context['orders']=orders
+        #context['preorders']=preorders
     except:
         print('no orders')
     
@@ -195,16 +196,19 @@ def delete_cancel(request):
 def contact(request):
     context = {}
     if request.method == 'POST':
+        print("contact posted")
         subject = "お問い合わせがありました。"
         message = "お問い合わせがありました。\n名前: {}\nメールアドレス: {}\n内容: {}".format(
                     request.POST.get('name'),
                     request.POST.get('email'),
                     request.POST.get('content'))        
         
-        email_from = os.environ['EMAIL_HOST_USER']
+        email_from = settings.EMAIL_HOST_USER
         email_to = [
-        os.environ['EMAIL_HOST_USER'], 
+        settings.EMAIL_HOST_USER, 
         ]
+        print(email_from)
+        
         send_mail(subject,message, email_from,email_to)
         messages.success(request,'お問い合わせいただきありがとうございました。ご入力内容が送信されました。')
     return render(request,'mainapp/contact.html',context)
