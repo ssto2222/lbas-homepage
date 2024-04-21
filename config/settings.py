@@ -121,7 +121,7 @@ default_dburl = "sqlite:///" + str(BASE_DIR / "db.sqlite3")
 # DATABASES = {
 #     "default": config("DATABASE_URL", default=default_dburl, cast=dburl),
 # }
-if os.environ["is_DEPLOY"]=='DEPLOY':
+if os.environ["IS_DEPLOY"]=='DEPLOY':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
