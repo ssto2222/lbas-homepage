@@ -11,3 +11,4 @@ jsonify
 stripe
 six
 pillow
+mysqlclient
