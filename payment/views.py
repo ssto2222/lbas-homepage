@@ -38,9 +38,9 @@ def create_stripe_payment(request):
     total = int(basket.get_total_price())
     discount = []
     if request.POST.get('paytype') == 'default':
-        amount = int(total)
-        amount_text = '¥{:,}'.format(amount,total)
-        discount_plan = {'type':'月払い','price':'{:,}'.format(int(total))}
+        amount = int(total * 0.9)
+        amount_text = '¥{:,}'.format(amount)
+        discount_plan = {'type':'月払い 10%割引','price':'-{:,}'.format(int(total * 0.1))}
         discount.append(discount_plan)
     elif request.POST.get('paytype')=='pre':
         amount = int(total * 0.7)
@@ -55,9 +55,11 @@ def create_stripe_payment(request):
             metadata={
                 'userid':request.user.id,
             },
-            # automatic_payment_methods={
-            #     'enabled': True,
-            # },
+            automatic_payment_methods={
+                'enabled': True,
+                "allow_redirects": "never"
+            },
+            
         )
         
         context={'client_secret':payment_intent.client_secret,

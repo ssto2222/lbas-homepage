@@ -422,6 +422,7 @@ nav .inner ul li a.nav-link:hover {
 
 section {
   padding-top: 50px;
+  margin-bottom: 100px;
 }
 
 .card-effect {
@@ -437,6 +438,7 @@ section {
   display: flex;
   flex-direction: column;
   flex: 1;
+  margin-bottom: 10px;
 }
 
 .card-effect:hover {

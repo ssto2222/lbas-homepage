@@ -52,7 +52,7 @@ async function handleSubmit(e) {
         elements,
         confirmParams: {
             // Make sure to change this to your payment completion page
-            return_url: "http://localhost:8000/payment/checkout.html",
+            return_url: "https://lbas.onrender.com/payment/order_placed",
             receipt_email: emailAddress,
         },
     });
