@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-import uuid
+#import uuid
 
 class ProductManager(models.Manager):
     def get_queryset(self):
