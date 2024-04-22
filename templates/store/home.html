@@ -1,6 +1,8 @@
 {% extends '../mainapp/base_index.html' %}{% load static %}
 
 {% block content%}
+<script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+
 <div class="page-top"></div>
 <div class="container" style="max-width: 1000px">
     <div class="service-title">
@@ -12,6 +14,9 @@
     <div class="container mt-3">
         <div class="pb-3 h5">
             <div class="row g-3">
+                <stripe-pricing-table pricing-table-id="prctbl_1P8II3HVLrKePmGrwhnUz6hK"
+                    publishable-key="pk_live_51P7vi4HVLrKePmGrTvFaGajiXJ33Z3tKODwfSvPPdKetiJ8pj9LlVBscTuq2trWC0vXbrNlYIz1NW28oxTga0BCm00T8vgBfPt">
+                </stripe-pricing-table>
                 {% for product in products %}
                 <div class="col-lg-3 col-sm-6">
                     <div class="service-item card-effect text-center">
