@@ -9,7 +9,7 @@ class ProductManager(models.Manager):
 
 # Create your models here.
 class Category(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255,db_index=True)
     slug = models.SlugField(max_length=255, unique=True)
     
@@ -20,7 +20,7 @@ class Category(models.Model):
         return self.name
     
 class Product(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     category = models.ForeignKey(Category, related_name='product', on_delete=models.CASCADE)
     created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='product_creator')
     title = models.CharField(max_length=255)
