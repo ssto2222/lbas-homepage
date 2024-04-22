@@ -178,9 +178,9 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-SUPERUSER_NAME = env("SUPERUSER_NAME")
-SUPERUSER_EMAIL = env("SUPERUSER_EMAIL")
-SUPERUSER_PASSWORD = env("SUPERUSER_PASSWORD")
+SUPERUSER_NAME = os.environ["SUPERUSER_NAME"]
+SUPERUSER_EMAIL = os.environ["SUPERUSER_EMAIL"]
+SUPERUSER_PASSWORD = os.environ["SUPERUSER_PASSWORD"]
 
 from django.contrib import messages
 MESSAGE_TAGS = {

@@ -15,7 +15,7 @@ class Command(BaseCommand):
     help = 'Automatically creates a superuser'
 
     def handle(self, *args, **kwargs):
-        if not User.objects.filter(email=settings.SUPERUSER_NAME).exists():
+        if not User.objects.filter(email=settings.SUPERUSER_EMAIL).exists():
             email = settings.SUPERUSER_EMAIL
             password = settings.SUPERUSER_PASSWORD
 
