@@ -21,7 +21,7 @@ class Command(BaseCommand):
             
 
             # createsuperuserコマンドを呼び出してスーパーユーザーを作成
-            call_command('createsuperuser', email=email, username=username, interactive=False)
+            call_command('createsuperuser', email=email, interactive=False)
 
             self.stdout.write(self.style.SUCCESS('Superuser created successfully: {}'.format(email)))
 
