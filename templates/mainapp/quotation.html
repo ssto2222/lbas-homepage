@@ -1,0 +1,291 @@
+{% extends 'mainapp/base_index.html' %} {% block content %}{% load static %}
+<div class="page-top"></div>
+
+<div class="container" style=" max-width: 1000px">
+    <div class="quotation-title">
+        <h1 class="page-top-title pt-3 ps-5">見積り入力ページ</h1>
+        <p class="px-5 text-white">各種サービスの見積もりをすぐにすることができます。</p>
+    </div>
+
+    <form method="post" name="myform" id="form" class="row g-3 ">
+        {% csrf_token %}
+        <div class="col-md-6 col-sm-12 px-5 py-3">
+            <h2>基本情報 <span class="warning"></h2>
+            <p><strong class="aster">&#10033</strong>印は必須項目です。</span></p>
+
+            <div class="control-group col-md-12 pb-3">
+                <i class=" fa fa-user mx-2"></i><label class="form-label" for="first-name">お名前 <strong
+                        class="aster">&#10033</strong></label>
+                <input class="form-control " required type="text" name="name" id="customer-name"
+                    value="{{user.firstname}}" placeholder="トゥットファーレ">
+            </div>
+
+
+            <div class="control-group col-md-12 pb-3">
+                <i class="fa fa-envelope-o mx-2"></i><label class="form-label" for="email">Email <strong
+                        class="aster">&#10033</strong></label>
+                <input required class="form-control" type="text" name="email" id="email" value="{{user.email}}"
+                    placeholder="例）totofare@xxxx.com">
+            </div>
+
+
+            <div class="control-group col-md-12 pb-3">
+
+                <i class="fa fa-phone mx-2"></i><label for="tel" class="form-label">ご連絡先 <strong
+                        class="aster">&#10033</strong></label>
+                <input required class="form-control " type="text" name="tel" id="tel" value="{{user.tel}}"
+                    placeholder="例）090xxxxxxxx">
+
+            </div>
+
+            <div class="control-group col-md-12 pb-3">
+
+                <i class="fa fa-address-card mx-2"></i><label for="zipcode" class="form-label">郵便番号(住所が自動入力されます。)
+                    <strong class="aster">&#10033</strong></label>
+                <input class="form-control ms-2" required type="text" id="zipcode" name="zipcode"
+                    value="{{user.zipcode}}" placeholder="例）1234567">
+
+                <div class="col-md-6 d-grid ">
+                    <label for="search" class="form-label mt-2">住所→郵便番号</label>
+                    <button class="btn btn-info" id="search" type="button">郵便番号検索</button>
+                    <p id="error"></p>
+                </div>
+            </div>
+
+
+
+
+
+
+            <p>ご住所</p>
+
+            <div class="control-group col-md-12 pb-3">
+                <label class="form-label">都道府県</label>
+                <input type="hidden" id="address1" name="address1" value="{{user.address1}}" placeholder="例）大阪府">
+
+                <select class="form-control" name="pref_name" id="pref_name">
+                    <option value="未選択" disabled>選択してください</option>
+                    <option value="北海道">北海道</option>
+                    <option value="青森県">青森県</option>
+                    <option value="岩手県">岩手県</option>
+                    <option value="宮城県">宮城県</option>
+                    <option value="秋田県">秋田県</option>
+                    <option value="山形県">山形県</option>
+                    <option value="福島県">福島県</option>
+                    <option value="茨城県">茨城県</option>
+                    <option value="栃木県">栃木県</option>
+                    <option value="群馬県">群馬県</option>
+                    <option value="埼玉県">埼玉県</option>
+                    <option value="千葉県">千葉県</option>
+                    <option value="東京都">東京都</option>
+                    <option value="神奈川県">神奈川県</option>
+                    <option value="新潟県">新潟県</option>
+                    <option value="富山県">富山県</option>
+                    <option value="石川県">石川県</option>
+                    <option value="福井県">福井県</option>
+                    <option value="山梨県">山梨県</option>
+                    <option value="長野県">長野県</option>
+                    <option value="岐阜県">岐阜県</option>
+                    <option value="静岡県">静岡県</option>
+                    <option value="愛知県">愛知県</option>
+                    <option value="三重県">三重県</option>
+                    <option value="滋賀県">滋賀県</option>
+                    <option value="京都府">京都府</option>
+                    <option value="大阪府">大阪府</option>
+                    <option value="兵庫県">兵庫県</option>
+                    <option value="奈良県">奈良県</option>
+                    <option value="和歌山県">和歌山県</option>
+                    <option value="鳥取県">鳥取県</option>
+                    <option value="島根県">島根県</option>
+                    <option value="岡山県">岡山県</option>
+                    <option value="広島県">広島県</option>
+                    <option value="山口県">山口県</option>
+                    <option value="徳島県">徳島県</option>
+                    <option value="香川県">香川県</option>
+                    <option value="愛媛県">愛媛県</option>
+                    <option value="高知県">高知県</option>
+                    <option value="福岡県">福岡県</option>
+                    <option value="佐賀県">佐賀県</option>
+                    <option value="長崎県">長崎県</option>
+                    <option value="熊本県">熊本県</option>
+                    <option value="大分県">大分県</option>
+                    <option value="宮崎県">宮崎県</option>
+                    <option value="鹿児島県">鹿児島県</option>
+                    <option value="沖縄県">沖縄県</option>
+                </select>
+            </div>
+            <div class="control-group col-md-12 pb-3">
+                <label class="form-label">市区町村</label>
+                <input class="form-control" type="text" id="address2" name="address2" value="{{user.address2}}"
+                    placeholder="例）大阪市中央区">
+            </div>
+
+
+            <div class="control-group col-md-12 pb-3">
+                <label class="form-label" for="address"></label>
+
+                <input class="form-control" type="text" id="address3" name="address3" value="{{user.address3}}"
+                    placeholder="例）大阪城1−1">
+                <p class="tip">町域</p>
+            </div>
+
+            <div class="control-group col-md-12 pb-3">
+                <label for="address" class="form-label"></label>
+
+                <input class="form-control" type="text" id="address4" name="address4" value="{{user.address4}}"
+                    placeholder="例）よろずや504号室">
+
+            </div>
+
+            <div class="control-group col-md-12 pb-3">
+                <label for="area" class="form-label">備考</label>
+
+                <textarea class="form-control" id="area" rows="5" name="area" value="{{user.refference}}" maxlength="50"
+                    placeholder="お問い合わせ内容等をご記入ください。写真やファイルはお見積り情報の３.参考情報にアップロードしてください。"></textarea>
+
+            </div>
+            <div class="col-md-12 d-grid mb-5">
+                <button onclick="saveFormData()" class="btn btn-info" id="save">一時保存</button>
+            </div>
+
+            <input type="hidden" name="checkB1" id="checkB1" value="">
+
+        </div>
+
+        <div class="col-md-6 col-sm-12 px-5 py-3">
+
+            <h2>お見積もり情報</h2>
+            <p><strong class="aster">&#10033</strong>印は必須項目です。</span></p>
+            <div class="control-group g-3">
+                <p class="label">１. サービス内容 <strong class="aster">&#10033</strong></p>
+                <div class="detail">
+
+
+                    <div class="item-list ms-4">
+                        <input type="checkbox" id="cb1" name="radioGroup" value="1" checked="false"><label class="item1"
+                            for="cb1">片付け・遺品整理</label>
+                    </div>
+
+                    <div class="item-container">
+                        <div class="control-group col-md-12" name="ele1" id="ele1">
+
+                            <label class="form-label" for="ele1">建物種類 <strong class="aster">&#10033</strong></label>
+
+                            <input type="hidden" value="">
+                            <select class="form-control" name="building" id="building-selection">
+                                <option value="null" disabled>未選択</option>
+                                <option value="集合住宅">集合住宅</option>
+                                <option value="一軒家">一軒家</option>
+                                <option value="その他・倉庫等">その他・倉庫等</option>
+                            </select>
+
+                        </div>
+
+                        <div class="control-group col-md-12" name="ele1" id="ele1">
+                            <label class="form-label" for="ele1">間取り <strong class="aster">&#10033</strong><span
+                                    class="small">（一部のお部屋のみの場合も対象部屋数相当の間取りをお選びください。）</span></label>
+
+                            <select class="form-control" name="room" id="rooms-selection">
+                                <option value="null" disabled>未選択</option>
+                                <option value="1K">1K</option>
+                                <option value="1DK">1DK</option>
+                                <option value="1LDK">1LDK</option>
+                                <option value="2DK">2DK</option>
+                                <option value="2LDK">2LDK</option>
+                                <option value="3DK">3DK</option>
+                                <option value="3LDK">3LDK</option>
+                                <option value="4DK">4DK</option>
+                                <option value="4LDK">4LDK</option>
+                                <option value="5LDK">5LDK以上</option>
+                            </select>
+
+                        </div>
+
+                        <div class="control-group " name="ele1" id="ele1">
+                            <label class="form-label" for="ele1">階数 <strong class="aster">&#10033</strong><span
+                                    class="small">（集合建物以外は総階数）</span></label>
+
+                            <select class="form-control" name="floor" id="floor-selection">
+                                <option value="null" disabled>未選択</option>
+                                <option value="1F">1F</option>
+                                <option value="2F">2F</option>
+                                <option value="3F">3F</option>
+                                <option value="4F">4F</option>
+                                <option value="5F">5F以上</option>
+                            </select>
+
+                        </div>
+
+                        <div class="control-group " name="ele1" id="ele1">
+                            <label class="form-label" for="ele1">エレベータ有無 <strong class="aster">&#10033</strong><span
+                                    class="small"></span></label>
+
+                            <select class="form-control" name="elevator" id="elevator-selection">
+                                <option value="null" disabled>未選択</option>
+                                <option value="no">なし</option>
+                                <option value="yes">あり</option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="detail">
+                    <div class="ms-4 item-list" id="item-list"><input type="checkbox" id="cb2" name="radioGroup"
+                            value="2"><label for="cb2">電化製品修理</label>
+                    </div>
+                    <div class="item-container">
+
+
+                        <div class="control-group" name="ele2" id="ele2">
+                            <label class="form-label" for="ele2">種類 <strong class="aster">&#10033</strong></label>
+
+                            <select class="form-control" name="equipment" id="equipment-selection">
+                                <option value="null" disabled>未選択</option>
+                                <option value="washing">洗濯機</option>
+                                <option value="tv">テレビ・周辺機器</option>
+                                <option value="pc">パソコン</option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <p class="label">２. 希望納期<strong class="aster">&#10033</strong>（特にない場合は二週間を目処としてください。）</p>
+                <input type="date" class="deadline" id="date" name="date">
+            </div>
+
+            <div class="control-group">
+                <p class="label">３. 資料情報</p>
+                <div class="control-group col-md-12">
+                    <div class="input-file mb-2">
+                        <input class="form-control" type="file" name="ref1" id="file-input">
+                    </div>
+                </div>
+                <div class="control-group col-md-12">
+                    <div class="input-file mb-2">
+                        <input class="form-control" type="file" name="ref2" id="file-input">
+                    </div>
+                </div>
+                <div class="control-group col-md-12 mb-5">
+                    <div class="input-file mb-2">
+                        <input class="form-control" type="file" name="ref3" id="file-input">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 d-grid">
+                <button type="submit" class="btn btn-info">見積もる</button>
+            </div>
+            <input type="hidden" name="checkB2" id="checkB2" value="">
+
+        </div>
+
+    </form>
+</div>
+
+<hr>
+<script src="{% static 'mainapp/js/quotation.js' %}"></script>
+<script src="{% static 'mainapp/js/classHandle.js' %}"></script>
+<script src="{% static 'mainapp/js/search_address.js'%}"></script>
+{% endblock %}

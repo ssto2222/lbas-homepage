@@ -1,0 +1,51 @@
+{% extends 'mainapp/base_index.html' %} {%block content%}{% load static %}
+<div class="page-top"></div>
+
+
+<main class="container">
+
+  <!--Contact section-->
+  <div class="contact-title mb-5">
+    <h1 class="page-top-title ps-5 pt-3">お問合せ</h1>
+    <p class="px-5 text-white">お問合せはこちらからどうぞ。</p>
+  </div>
+  <div class="container">
+    {% for message in messages %}
+    <div {% if message.tags %}class="{{ message.tags }}" {% endif %}>
+      {{ message }}
+    </div>
+
+    {% endfor %}
+    <div class="row">
+      <div class="col-md-8 mx-auto text-center">
+        <h6 class="theme">CONTACT</h6>
+        <h1>Get In Touch</h1>
+      </div>
+    </div>
+    <form method="POST" class="row g-3 justify-content-center">
+      {% csrf_token %}
+      <div class="col-md-5">
+        <input type="text" name="name" class="form-control" placeholder="お名前">
+      </div>
+      <div class="col-md-5">
+        <input type="email" name="email" class="form-control" placeholder="email アドレス">
+      </div>
+      <div class="col-md-10">
+        <input type="text" name="subject" class="form-control" placeholder="件名">
+      </div>
+      <div class="col-md-10">
+        <textarea rows="5" name="content" class="form-control" placeholder="お問合せ内容をご記入ください"></textarea>
+      </div>
+      <div class="col-md-10 d-grid">
+        <button type="submit" class="btn btn-info">Contact</button>
+      </div>
+    </form>
+  </div>
+
+
+  {% include 'mainapp/snippets/sidebar.html' %}
+
+  </div>
+</main>
+
+{%endblock%}

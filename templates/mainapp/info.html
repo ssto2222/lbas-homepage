@@ -1,0 +1,41 @@
+{% extends 'mainapp/base_index.html' %}
+{% block content %}
+<body class="d-flex h-100 text-center text-white bg-dark">
+  
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+<header class="mb-auto">
+  <div>
+    <h3 class="float-md-start mb-0">About</h3>
+    <nav class="nav nav-masthead justify-content-center float-md-end">
+      <a class="nav-link active" aria-current="page" href="{{url_for('core.index')}}">Home</a>
+      <a class="nav-link" href="{{url_for('contacts.contact')}}">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="px-3">
+  <h1>Metail(サイト運営者)について</h1>
+  <ul>
+    <li class="lead text-start">地下鉄サリン事件、阪神・淡路大震災、リーマンショック、東日本大震災などを経て、世の中の仕組みについての疑問が大きくなり、将来への不安感に苛まれギャンブル依存症を発症。（投機的なマネーゲームにハマる）</li>
+    <li class="lead text-start">娘が生まれ、今後の資産運用などの将来のお金の話をしていたところ、家族にギャンブル依存症が発覚し、自立支援施設に入所。</li>
+    <li class="lead text-start">施設で薬物・アルコール・ギャンブル・ゲーム依存症者と生活を共にし、心理学的な行動療法を受け闇からは脱出。</li>
+    <li class="lead text-start">今まで実体験を通してほとんど触れたことのなかった、社会の暗部に触れることでやはり自分が漠然と思っていたことは間違っていなかったと気付く。</li>
+    <li class="lead text-start">新卒から10年以上勤務した大企業を辞め、今に至る。</li>
+  </ul>
+
+  <h1>サイトについて</h1>
+  <ul>
+    <li class="lead text-start">心理学、認知科学をはじめ様々な人間の本質や社会の本質について興味のある人々との接点作り。</li>
+    <li class="lead text-start">運営者本人の備忘録的まとめ。</li>
+    <li class="lead text-start">好きなこと、勉強したいことを共有し、同様の考えをもった人々や新しいことを始めたい人々への参考書的存在になりたい。</li>
+    <li class="lead text-start">ほとんどの人が経験したことのない施設生活における実体験と、世間に溢れている情報との接合と発信。</li>
+    <li class="lead text-start">いわゆる昭和・平成型の典型的な社会のレールに沿った人生を歩んできたものの、自分に嘘をつき続けた者の行く末について発信し、同様に苦しむ人を一人でも減らしたい。</li>
+  </ul>
+  
+  <p class="lead">
+    <a href="{{url_for('core.index')}}" class="btn btn-lg btn-primary fw-bold">Learn more</a>
+  </p>
+</main>
+</div>
+</body>
+{% endblock %}

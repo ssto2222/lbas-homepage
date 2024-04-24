@@ -1,0 +1,314 @@
+{% extends '../../mainapp/base_index.html' %}{% load static %}
+{% load humanize %}
+{% block content%}
+<div class="page-top"></div>
+
+<div class="container mt-5" style="max-width: 1000px">
+    <div class="basket-title mb-5">
+        <h1 class="page-top-title ps-5 pt-3">買い物かご</h1>
+        <p class="px-5 text-white">中身をご確認ください。</p>
+    </div>
+
+    {% for item in basket %}
+    {% with product=item.product %}
+    <div data-index={{product.id}} class="row mb-4 product-item">
+        <div class="summary-item card-effect text-center">
+            <img src="{{product.image.url}}" alt="Responsice image" class="img-fluid">
+            <h5 class="mt-2"><a href="{{ product.get_absolute_url }}"
+                    class="text-dark text-decoration-none">{{product.title}}</a></h5>
+            <div class="border">
+                <div class="col border-bottom">
+                    <div class="row p-3">
+                        <div class="col-12 text-enter">
+                            <span class="h6 fw-bold">¥{{product.price|intcomma}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row p-3">
+                        <div class="col-12">
+                            <label for="select">Qty</label>
+                            <select class="select-qty" name="qty" id="select{{product.id}}">
+                                <option selected>{{item.qty}}</option>
+                                <option value="">1</option>
+                                <option value="">2</option>
+                                <option value="">3</option>
+                                <option value="">4</option>
+                                <option value="">5</option>
+                                <option value="">6</option>
+                                <option value="">7</option>
+                                <option value="">8</option>
+                                <option value="">9</option>
+                                <option value="">10</option>
+                                <option value="">11</option>
+                                <option value="">12</option>
+                            </select>
+                            <button type="button" id="update-button" data-index="{{product.id}}"
+                                class="btn btn-outline-secondary btn-sm update-button">更新</button>
+                            <button type="button" id="delete-button" data-index="{{product.id}}"
+                                class="btn btn-outline-danger btn-sm delete-button">削除</button>
+
+                        </div>
+                        <!-- <div class="col-12 my-3">
+                            <label for="select">受講開始ご希望日</label>
+                            <input type="date" class="deadline" id="date" name="date" value="{{item.date}}">
+                            <button type="button" id="update-button" data-index="{{product.id}}"
+                                class="btn btn-outline-secondary btn-sm update-button">更新</button>
+
+                        </div> -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% endwith %}
+    {% endfor %}
+
+    <div class="col-12 text-end my-3">
+        <div class="h6 fw-bold">お支払い額　合計：¥<div id="subtotal" class="d-inline-flex">
+            </div><input type="hidden" id='id_subtotal' value="{{basket.get_total_price}}" />
+        </div>
+    </div>
+    <form action="{%url 'payment:create_stripe_payment' %}" method="post">
+        {% csrf_token %}
+        <div class=" row my-3 mx-2" id="paytypes">
+            <h4 class="mb-3">お支払い方法</h4>
+            <div>
+                <input type="radio" id="pay_type" name="paytype" value="default" checked>
+                <label for="prepay">通常支払い（月払い）</label>
+            </div>
+
+            <div id="ikkatsu" name="ikkatsu">
+                <input type="radio" id="pay_type" name="paytype" value="pre">
+                <label for="prepay">一括前払い（30％割引）</label>
+            </div>
+        </div>
+
+        <div class="row button-container" id="pay_selection">
+            <div class="row  col-md-12">
+                <button type="submit" class="pay col-md-6 card-effect text-center">
+                    <h3>クレジットカード</h3>
+                    <div class="row ">
+                        <div class="pay-img col-md-12">
+                            <img class="credit-card" src="{% static 'payment/credit-card-regular-168.png'%}" alt="">
+                        </div>
+                    </div>
+                </button>
+
+
+                <!-- <button type="submit" class="pay col-md-3 card-effect text-center">
+
+                    <h3>Apple Pay</h3>
+
+                    <div class="row apple">
+                        <div class="pay-img col-md-12">
+                            <img class="apple" src="{% static 'payment/Apple_Pay.svg'%}" alt="apple_pay">
+                        </div>
+
+                    </div>
+
+                </button> -->
+
+
+                <!-- <button type="submit" class="pay col-md-3 card-effect text-center">
+
+                    <h3>Google Pay</h3>
+
+                    <div class="row apple">
+                        <div class="pay-img col-md-12">
+                            <img class="google" src="{% static 'payment/GPay_Acceptance_Mark_800.png'%}"
+                                alt="google_pay">
+                        </div>
+
+                    </div>
+
+                </button> -->
+
+
+
+                <button type="submit" class="pay col-md-6 card-effect text-center">
+
+                    <h3>PayPay</h3>
+
+                    <div class="row apple">
+                        <div class="pay-img col-md-12">
+                            <img class="paypay" src="{% static 'payment/img_logo_2.jpg'%}" alt="pay_pay">
+                        </div>
+
+                    </div>
+
+                </button>
+            </div>
+
+
+
+
+        </div>
+
+    </form>
+
+</div>
+
+
+
+<hr class="my-4">
+
+
+
+</div>
+
+
+</div>
+
+
+<script>
+    let basketTotal = parseInt(document.getElementById('id_subtotal').value);
+    let pay_types = document.querySelectorAll('#pay_type');
+    let product_qty = document.querySelectorAll('.select-qty');
+
+    window.onload = function () {
+
+        paySelectionDisplay();
+
+        console.log(typeof (subtotal))
+
+        if (subtotal != 0) {
+            pay_types.forEach((element) => {
+                PayType(element);
+
+                element.addEventListener('click', function () {
+                    PayType(element);
+                })
+
+
+            })
+            console.log(isExistBeside1getQty())
+        }
+
+
+    }
+    document.getElementById('id_subtotal').addEventListener('change', (e) => {
+        if (subtotal != 0) {
+            pay_types.forEach((element) => {
+                PayType(element);
+            })
+        }
+    })
+
+    function PayType(element) {
+        if (element.checked) {
+            if (element.value === 'default') {
+                document.getElementById('subtotal').textContent = (basketTotal * 1).toLocaleString()
+            } else if (element.value === 'pre') {
+                document.getElementById("subtotal").textContent = (basketTotal * 0.7).toLocaleString() + "(30%割引)"
+            }
+        }
+
+    }
+
+    function isExistBeside1getQty(element) {
+        product_qty.forEach(element => {
+            let qty = element.options[element.selectedIndex];
+            if (qty != "1") {
+                return true;
+            }
+        })
+
+        console(option);
+    }
+
+
+
+
+    $(document).on('click', '.delete-button', function (e) {
+        e.preventDefault();
+        let prodid = $(this).data('index');
+        $.ajax({
+            type: 'POST',
+            url: '{% url "basket:basket_delete" %}',
+            data: {
+                productid: $(this).data('index'),
+                csrfmiddlewaretoken: "{{csrf_token}}",
+                action: 'post'
+            },
+            success: function (json) {
+                $('.product-item[data-index="' + prodid + '"]').remove();
+                document.getElementById("subtotal").innerHTML = json.subtotal;
+                document.getElementById("basket-qty").innerHTML = json.qty;
+                paySelectionDisplay();
+            },
+            error: function (xhr, errmsg, err) { }
+        });
+
+
+    })
+
+    $(document).on('click', '.update-button', function (e) {
+        e.preventDefault();
+        let prodid = $(this).data('index');
+        console.log(prodid)
+        $.ajax({
+            type: 'POST',
+            url: '{% url "basket:basket_update" %}',
+            data: {
+                productid: $(this).data('index'),
+                productqty: $('#select' + prodid + ' option:selected').text(),
+                csrfmiddlewaretoken: "{{csrf_token}}",
+                action: 'post'
+            },
+            success: function (json) {
+                console.log('update op succeeded')
+                document.getElementById('basket-qty').innerHTML = json.qty
+                document.getElementById('subtotal').innerHTML = json.subtotal
+                window.location.reload();
+                _showAlert(json.message, prodid)
+            },
+            error: function (xhr, errmsg, err) { }
+        });
+
+
+    })
+
+    function _showAlert(msg, prodid) {
+        var $alert = $('<div>').prependTo($('.product-item[data-index="' + prodid + '"]')).addClass('alert rounded-0 alert alert-success');
+
+        $alert.hide().text(msg).fadeIn(3000, function () {
+            $alert.fadeOut(3000, function () {
+                $alert.remove();
+
+            });
+        });
+
+    }
+
+    function paySelectionDisplay() {
+        let paySelection = document.getElementById('pay_selection');
+        let paytypes = document.getElementById('paytypes')
+
+        if (basketTotal === 0) {
+            document.getElementById('subtotal').textContent = '0';
+            paySelection.style.display = 'none';
+            paytypes.style.display = 'none';
+        } else {
+            paySelection.style.display = '';
+            paytypes.style.display = '';
+        }
+    }
+
+    // 今日の日付を取得
+    const today = new Date();
+
+    // 二週間後の日付を計算
+    const twoWeeksLater = new Date(today.getTime() + (15 * 24 * 60 * 60 * 1000));
+
+    // input要素のmin属性に設定
+    const input = document.getElementById("date");
+    //input.min = twoWeeksLater.toISOString().split("T")[0];
+
+
+
+
+</script>
+
+{%endblock%}

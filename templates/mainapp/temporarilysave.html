@@ -1,0 +1,14 @@
+{% extends 'mainapp/base_index.html' %} {% block content %} {{content}}
+<button class="ink-button blue">
+  <a href="{{url_for('users.save_quotation')}}">続行</a>
+</button>
+<ul>
+  <li>お名前: {{ user.firstname }} {{ user.lastname }} 様</li>
+  <li>郵便番号: {{ user.zipcode}}</li>
+  <li>ご住所: {{ user.address1}} {{user.address2}}</li>
+  <li>{{ user.address3 }} {{user.address4}}</li>
+  <li>備考: {{ user.reference}}</li>
+  <li>サービス内容: {{ quotation.service1}}</li>
+  <li>建物：{{quotation.building}}</li>
+</ul>
+{%endblock %}

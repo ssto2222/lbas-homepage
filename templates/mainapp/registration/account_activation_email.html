@@ -1,0 +1,12 @@
+{% autoescape off %}
+{{ user.email }}様、この度はLBASサイトのアカウント登録ありがとうございます。
+サイトにログインするためには、アカウントをアクティベートする必要があります。
+以下のリンクをクリックして、アクティベートを完了してください。
+
+Thank you for registration!
+Your account has been successfully created.
+Please click below link to activate your account.
+
+↓↓リンクはこちら（link is here)
+http://{{ domain }}{% url 'mainapp:activate' uidb64=uid token=token %}
+{% endautoescape %}

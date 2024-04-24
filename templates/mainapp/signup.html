@@ -1,0 +1,49 @@
+{%extends "mainapp/base_index.html" %} {%block content%}
+<div class="column-group gutters">
+  <div class="all-100">
+    <h1 class="h3 mb-3 fw-300" style="text-shadow: 1px 1px #3367ff">
+      サインアップ
+    </h1>
+    <hr />
+    <form method="post" name="myform" class="ink-form column-group horizontal-gutters">
+      {% csrf_token %}
+      <div class="all-80 small-100 tiny-100">
+        <div class="control-group required column-group gutters">
+          <label for="email" class="all-20 align-right">Email</label>
+          <div class="control all-80 prepend-symbol">
+            <span>
+              <input required type="email" name="email" id="email" placeholder="例）totofare@xxxx.com" />
+              <i class="fa fa-envelope-o"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="control-group required column-group gutters">
+          <label for="tel" class="all-20 align-right">パスワード</label>
+          <div class="control all-80 prepend-symbol">
+            <span>
+              <input required type="password" name="password" id="password" placeholder="例）XXXXXXXX" />
+              <i class="fa fa-key"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="control-group required column-group gutters">
+          <label for="tel" class="all-20 align-right">パスワード再入力</label>
+          <div class="control all-80 prepend-symbol">
+            <span>
+              <input required type="password" name="repassword" id="repassword" placeholder="再入力してください。" />
+              <i class="fa fa-key"></i>
+            </span>
+          </div>
+        </div>
+
+        <input class="btn btn-info" type="submit" id="b1" name="b1" value="登録" />
+        <input type="hidden" name="checkB1" id="checkB1" value="" />
+      </div>
+
+      <div class="all-50 small-100 tiny-100"></div>
+    </form>
+  </div>
+</div>
+{%endblock%}
