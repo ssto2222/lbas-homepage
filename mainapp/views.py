@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 from blog.models import Article
+from booking.models import Booking
 from django.contrib.auth.views import LoginView
+from django.views.generic import View
 from django.views.decorators.csrf import csrf_exempt
 from django.http import  HttpResponse, JsonResponse
 from django.contrib.sites.shortcuts import get_current_site
@@ -14,10 +16,16 @@ from .models.profile_models import Profile
 from mainapp.forms import UserCreationForm, ProfileForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login,logout
 from django.core.mail import send_mail
 from config import settings
-#from orders.views import user_orders
+from datetime import datetime, date, timedelta, time
+from django.db.models import Q
+from django.utils.timezone import localtime, make_aware
+from orders.views import user_orders
+from booking.form import BookingForm
+from django.views.decorators.http import require_POST
 
 import os
 
@@ -248,3 +256,211 @@ def my_customized_server_error(request, template_name='500.html'):
     from django.views import debug
     error_html = debug.technical_500_response(request, *sys.exc_info()).content
     return HttpResponseServerError(error_html)
+
+
+class CalendarView(View):
+    def get(self,request,*args,**kwargs):
+        if request.user.is_staff:
+            start_date = date.today()
+            # weekday = start_date.weekday()
+            # if weekday != 6:
+            #     start_date = start_date - timedelta(days=weekday + 1)
+            return redirect('mainapp:schedule',start_date.year,start_date.month,start_date.day)
+        user = User.objects.get(id=request.user.id)
+        today=date.today()
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        day = self.kwargs.get('day')
+        if year and month and day:
+            start_date = date(year=year,month=month,day=day)
+        else:
+            start_date = today
+        days = [start_date + timedelta(days=day) for day in range(7)]
+        start_day = days[0]
+        end_day = days[-1]
+        
+        calendar = {}
+        for hour in range(10,22):
+            row ={}
+            for day in days:
+                row[day] = True
+            calendar[hour] = row
+        start_time = make_aware(datetime.combine(start_day, time(hour=10,minute=0,second=0)))
+        end_time = make_aware(datetime.combine(end_day, time(hour=20,minute=0,second=0)))
+        booking_data = Booking.objects.exclude(Q(start__gt=end_time) | Q(end__lt=start_time))
+        for booking in booking_data:
+            local_time = localtime(booking.start)
+            booking_date = local_time.date()
+            booking_hour = local_time.hour
+            if (booking.email != None) and (booking_hour != None) and (booking_date != None):
+                calendar[booking_hour][booking_date] = False
+        print(calendar)
+        context={
+            'user':user,
+            'calendar': calendar,
+            'today':today,
+            'days': days,
+            'start_day' : start_day,
+            'end_day' : end_day,
+            'before' : days[0] -timedelta(days=7),
+            'next' : days[-1]  + timedelta(days=1),    
+        } 
+               
+        return render(request,'mainapp/calendar.html', context) 
+    
+class  BookingView(View):
+    def get(self,request,*args,**kwargs):
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        day = self.kwargs.get('day')
+        hour = self.kwargs.get('hour')
+        form = BookingForm(request.POST or None)
+        
+        context = {
+            "year":year,
+            "month":month,
+            "day":day,
+            "hour":hour,
+            "form":form
+        }
+        
+        return render(request,'mainapp/booking.html',context)
+    
+    def post(self,request,*args,**kwargs):
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        day = self.kwargs.get('day')
+        hour = self.kwargs.get('hour')
+        start = datetime(year=year,month=month,day=day,hour=hour)
+        end = datetime(year=year,month=month,day=day,hour=hour+1)
+        start_time = make_aware(start)
+        end_time = make_aware(end)
+        booking_data = Booking.objects.filter(start=start_time)
+        form = BookingForm(request.POST or None)
+        if booking_data.exists():
+            form.add_error(None, 'すでに予約があります。\n 別の日時で予約をお願いします。')
+        else:
+            if form.is_valid():
+                booking = Booking()
+                booking.start = start_time
+                booking.end = end_time
+                booking.name = form.cleaned_data['username']
+                booking.email= request.user
+                booking.line_id = form.cleaned_data['line_id']
+                booking.remarks = form.cleaned_data['remarks']
+                booking.save()
+                mail_start = "{}/{}/{} {}時".format(year,month,day,hour)
+                mail_end = "{}時".format(hour+1)
+                subject = "LBASレッスン{}~{}の予約完了".format(mail_start,mail_end)
+                message = "{}様、ご予約ありがとうございます。\n日時: {}~{}\n備考: {}".format(
+                    request.POST.get('email'),
+                    mail_start,
+                    mail_end,
+                    request.POST.get('remarks')) 
+                mail_to_customer(request,subject,message)
+                messages.success(request,"予約完了しました。メールをご確認ください。")
+                return redirect('/')
+        context = {
+            "year":year,
+            "month":month,
+            "day":day,
+            "hour":hour,
+            "form":form
+        }
+        return render(request, 'mainapp/booking.html', context)
+    
+class ScheduleView(LoginRequiredMixin,View):
+    def get(self,request,*args,**kwargs):
+        user = User.objects.get(id=request.user.id)
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        day = self.kwargs.get('day')
+        today = date.today()
+        if year and month and day:
+            start_date = date(year=year,month=month,day=day)
+        else:
+            start_date = today
+        days = [start_date + timedelta(days=day) for day in range(7)]
+        start_day = days[0]
+        end_day = days[-1]
+        
+        calendar = {}
+        for hour in range(10,22):
+            row ={}
+            for day_ in days:
+                row[day_] = ""
+            calendar[hour] = row
+        start_time = make_aware(datetime.combine(start_day, time(hour=10,minute=0,second=0)))
+        end_time = make_aware(datetime.combine(end_day, time(hour=20,minute=0,second=0)))
+        booking_data = Booking.objects.exclude(Q(start__gt=end_time) | Q(end__lt=start_time))
+        for booking in booking_data:
+            local_time = localtime(booking.start)
+            booking_date = local_time.date()
+            booking_hour = local_time.hour
+            if (booking_hour in calendar) and (booking_date in calendar[booking_hour]):
+                calendar[booking_hour][booking_date] = booking.name
+        
+        context={
+            'user':user,
+            'booking_data':booking_data,
+            'calendar': calendar,
+            'days': days,
+            'start_day' : start_day,
+            'end_day' : end_day,
+            'before' : days[0] -timedelta(days=7),
+            'next' : days[-1]  + timedelta(days=1), 
+            'year':year,
+            'month': month,
+            'day': day,   
+        } 
+               
+        return render(request,'mainapp/schedule.html', context) 
+
+@require_POST
+def holiday(request,year,month,day,hour):
+    user = request.user
+    if user.is_staff:
+        start_time = make_aware(datetime(year=year,month=month,day=day,hour=hour))
+        end_time = make_aware(datetime(year=year,month=month,day=day,hour=hour+1))
+    
+        
+        Booking.objects.create(
+            
+            start = start_time,
+            end = end_time,
+        )
+    
+        start_date = date(year=year,month=month,day=day)
+        weekday = start_date.weekday()
+        if weekday != 6:
+            start_date = start_date - timedelta(days=weekday + 1)
+        return redirect('mainapp:schedule',year=start_date.year,month=start_date.month,day=start_date.day)
+
+@require_POST
+def delete(request,year,month,day,hour):
+    start_time = make_aware(datetime(year=year,month=month,day=day,hour=hour))
+    booking_data = Booking.objects.filter(start=start_time)
+    
+    booking_data.delete()
+    start_date = date(year=year,month=month,day=day)
+    weekday = start_date.weekday()
+    
+    if weekday != 6:
+        start_date = start_date - timedelta(days = weekday +1)
+    return redirect('mainapp:schedule',year=start_date.year,month=start_date.month,day=start_date.day) 
+    
+def mail_to_customer(request,subject,message):     
+    
+    email_from = settings.DEFAULT_FROM_EMAIL
+    email_to = [
+    settings.DEFAULT_FROM_EMAIL, 
+    request.user,
+    ]
+    print("{}, {} ".format(email_from,settings.EMAIL_HOST_PASSWORD))
+    
+    send_mail(subject,
+                message, 
+                email_from,
+                email_to,
+                fail_silently=True,
+                )

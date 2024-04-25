@@ -11,4 +11,4 @@ jsonify
 stripe
 six
 pillow
-mysqlclient
+django-widget-tweaks

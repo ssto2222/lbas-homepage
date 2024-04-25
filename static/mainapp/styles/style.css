@@ -1133,3 +1133,44 @@ button.pay h3 {
   background-color: rgba(1, 1, 1, 0.7);
   z-index: -3;
 }
+
+.calender img {
+  height: 150px;
+  object-fit: contain;
+}
+
+.calender.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-booking {
+  max-width: 800px;
+}
+
+.table-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.booking-table {
+  width: 100%;
+  border: 1px solid #D1DBEB;
+  border-radius: 8px;
+  border-collapse: separate;
+  overflow: hidden;
+}
+
+.booking-table .header {
+  width: 200px;
+  padding: 16px 24px;
+  text-align: left;
+  background: #F1F5FA;
+
+}
+
+.booking-table .data {
+  padding: 16px 24px;
+}

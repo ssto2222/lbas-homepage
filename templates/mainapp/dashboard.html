@@ -7,13 +7,23 @@
         <div class="px-5 text-white"><b>注文の管理</b> と<b>アカウント情報</b>の管理に利用してください。</div>
 
     </div>
-    <div class="col-12 ">
-        <a type='button' class="btn btn-dashboard" href="{% url  'mainapp:account' %}">
-            <i class='bx bxs-user-account iconarea'></i>
-            <span class="ms-5">アカウント情報</span>
-        </a>
+    <div class="dashbord-container">
+        <div class="col-6 mb-3">
+            <a type='button' class="btn btn-dashboard" href="{% url  'mainapp:account' %}">
+                <i class='bx bxs-user-account iconarea'></i>
+                <span class="ms-5">アカウント情報</span>
+            </a>
 
+        </div>
+        <div class="col-6 ">
+            <a type='button' class="btn btn-dashboard" href="{% url  'mainapp:account' %}">
+                <i class='bx bxs-book iconarea'></i>
+                <span class="ms-5">ご予約内容</span>
+            </a>
+
+        </div>
     </div>
+
     <hr />
 </div>
 <div class="container" style="max-width: 1000px">

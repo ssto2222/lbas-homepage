@@ -42,6 +42,12 @@ class User(AbstractBaseUser):
     def is_staff(self):
         "Is the user a member of staff?"
         return self.is_admin
+
+class Staff(models.Model):
+    user = models.OneToOneField(User, verbose_name='スタッフ',on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f'{self.user}'
     
 from django.db.models.signals import post_save
 from django.dispatch import receiver
