@@ -1,0 +1,70 @@
+{% extends "mainapp/base_index.html" %} {% load static %}{%load humanize%}{% load widget_tweaks %} {% block content %}
+
+<div class="page-top"></div>
+<div class="container " style="max-width: 1000px">
+    <div class="flex align-items-center dashboard-title my-3 py-3">
+        <h1 class="page-top-title">スケジュール</h1>
+        <div class="px-5 text-white"><b>空き状況の確認</b> と<b>予約</b>の管理に利用してください。
+        </div>
+    </div>
+
+    <div class="card card-booking my-5 mx-auto text-center">
+        <div class="card-body">
+            <h5 class="card-title text-center">予約内容</h5>
+            <div class="table-container">
+                <table class="booking-table mb-4">
+                    <tbody>
+                        <tr>
+                            <th class="header">日程</th>
+                            <td class="data">
+                                {% for error in form.non_field_errors %}
+                                <h5 class="text-danger">{{ error|linebreaksbr }}</h5>
+                                {% endfor %}
+                                {{ year }}年{{ month }}月{{ day }}日 {{ hour }}:00
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h5 class="card-title text-center">予約情報</h5>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="table-container">
+                    <table class="booking-table mb-4">
+                        <tbody>
+                            <tr>
+                                <th class="header">お名前</th>
+                                <td class="data ">
+
+                                    {% render_field form.username class='form-control' placeholder='お名前' %}
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="header">LINE ID</th>
+                                <td class="data ">
+
+                                    {% render_field form.line_id class='form-control' placeholder='LINE ID' %}
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th class="header">備考</th>
+                                <td class="data ">
+                                    {% render_field form.remarks class='form-control' placeholder='備考' %}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="button mx-auto">
+                    <button class="btn btn-lg btn-warning btn-block" type="submit">予約</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

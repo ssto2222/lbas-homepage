@@ -1,0 +1,140 @@
+{% extends "mainapp/base_index.html" %} {% load static %}{%load humanize%} {% block content %}
+
+<div class="page-top"></div>
+<div class="container " style="max-width: 1000px">
+    <div class="flex align-items-center dashboard-title my-3 py-3">
+        <h1 class="page-top-title">予約カレンダー</h1>
+        <div class="px-5 text-white"><b>スタッフ確認用</div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-4 text-center calendar">
+            <img src="" alt="" class="img-fluid">
+        </div>
+    </div>
+
+    <div class="container text-center">
+        <div class="mb-3">
+            <h1>予約カレンダー</h1>
+            <p>{{ start_day }}~{{ end_day }}</p>
+        </div>
+
+        <div class="d-flex mb-2 text-center">
+            <div class="mx-3 mr-auto">
+                <a href="{% url 'mainapp:schedule' before.year before.month before.day %}"
+                    class="btn btn-warning">前週</a>
+            </div>
+
+            <div class="mx-3 mr-auto">
+                <a href="{% url 'mainapp:schedule' next.year next.month next.day %}" class="btn btn-warning">次週</a>
+            </div>
+        </div>
+
+
+        <div class=" text-center">
+
+            <table class="table table-bordered bg-light">
+                <thead class="thead-light">
+                    <tr>
+                        <th></th>
+                        {% for day in days %}
+                        {% if day.weekday == 5 %}
+                        <th scope="col" class="text-primary">{{ day | date:'d(D)'}}</th>
+                        {% elif day.weekday == 6 %}
+                        <th scope="col" class="text-danger">{{ day | date:'d(D)'}}</th>
+                        {% else %}
+                        <th scope="col">{{ day | date:'d(D)'}}</th>
+                        {% endif %}
+
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking_hour, booking_date in calendar.items %}
+                    <tr>
+                        <td scope="row"> {{ booking_hour }}:00</td>
+                        {% for datetime, book in booking_date.items %}
+                        <td>
+                            {% if book == '' %}
+                            <form method="post"
+                                action="{% url 'mainapp:holiday' datetime.year datetime.month datetime.day booking_hour %}">
+                                {% csrf_token %}
+                                <button class="btn btn-light">空き</button>
+                            </form>
+                            {% else %}
+                            {% if book == None %}
+                            <p class="mb-0">休み</p>
+
+                            {% else %}
+                            <p class="mb-0 font-weight-bold text-success">{{ book }}様</p>
+
+                            {% endif %}
+                            <form method="post"
+                                action="{% url 'mainapp:delete' datetime.year datetime.month datetime.day booking_hour %}">
+                                {% csrf_token %}
+                                <button class="btn btn-danger">削除</button>
+                            </form>
+                            {% endif %}
+
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 mb-4 text-center schedule">
+                <img src="" alt="" class="mb-3 img-fluid">
+
+            </div>
+
+            <div class="col-md-9 mb-4">
+                <div class="card">
+                    <div class="card-body px-2 py-1">
+                        <div class="p-4 text-left">
+                            <h3>今週の予約</h3>
+                            <hr>
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>お客様</th>
+                                        <th>開始時刻</th>
+                                        <th>終了時刻</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for booking in booking_data %}
+                                    {% if booking.name != None %}
+                                    <tr>
+                                        <td> {{ booking.email }} </td>
+                                        <td>{{ booking.start }}</td>
+                                        <td>{{ booking.end }}</td>
+                                    </tr>
+                                    {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+    <hr />
+</div>
+
+
+{% endblock %}
