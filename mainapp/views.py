@@ -262,9 +262,9 @@ class CalendarView(View):
     def get(self,request,*args,**kwargs):
         if request.user.is_staff:
             start_date = date.today()
-            # weekday = start_date.weekday()
-            # if weekday != 6:
-            #     start_date = start_date - timedelta(days=weekday + 1)
+            weekday = start_date.weekday()
+            if weekday != 6:
+                start_date = start_date - timedelta(days=weekday + 1)
             return redirect('mainapp:schedule',start_date.year,start_date.month,start_date.day)
         user = User.objects.get(id=request.user.id)
         today=date.today()
@@ -282,8 +282,13 @@ class CalendarView(View):
         calendar = {}
         for hour in range(10,22):
             row ={}
+            
             for day in days:
-                row[day] = True
+                print(day.weekday())
+                if day.weekday() == 0 or day.weekday() == 5:
+                    row[day] = False
+                else:
+                    row[day] = True
             calendar[hour] = row
         start_time = make_aware(datetime.combine(start_day, time(hour=10,minute=0,second=0)))
         end_time = make_aware(datetime.combine(end_day, time(hour=20,minute=0,second=0)))
@@ -292,9 +297,9 @@ class CalendarView(View):
             local_time = localtime(booking.start)
             booking_date = local_time.date()
             booking_hour = local_time.hour
-            if (booking.email != None) and (booking_hour != None) and (booking_date != None):
+            if (booking_hour in calendar) and (booking_date in calendar):
                 calendar[booking_hour][booking_date] = False
-        print(calendar)
+        
         context={
             'user':user,
             'calendar': calendar,
@@ -388,7 +393,10 @@ class ScheduleView(LoginRequiredMixin,View):
         for hour in range(10,22):
             row ={}
             for day_ in days:
-                row[day_] = ""
+                if day_.weekday() == 0 or day_.weekday() == 5:
+                    row[day_] = "holiday" 
+                else:
+                    row[day_] = ""
             calendar[hour] = row
         start_time = make_aware(datetime.combine(start_day, time(hour=10,minute=0,second=0)))
         end_time = make_aware(datetime.combine(end_day, time(hour=20,minute=0,second=0)))

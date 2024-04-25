@@ -63,7 +63,7 @@
                                 <button class="btn btn-light">空き</button>
                             </form>
                             {% else %}
-                            {% if book == None %}
+                            {% if book == None or book == "holiday" %}
                             <p class="mb-0">休み</p>
 
                             {% else %}
