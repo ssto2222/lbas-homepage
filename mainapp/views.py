@@ -292,12 +292,13 @@ class CalendarView(View):
             calendar[hour] = row
         start_time = make_aware(datetime.combine(start_day, time(hour=10,minute=0,second=0)))
         end_time = make_aware(datetime.combine(end_day, time(hour=20,minute=0,second=0)))
-        booking_data = Booking.objects.exclude(Q(start__gt=end_time) | Q(end__lt=start_time))
+        #booking_data = Booking.objects.exclude(Q(start__gt=end_time) | Q(end__lt=start_time))
+        booking_data = Booking.objects.all()
         for booking in booking_data:
             local_time = localtime(booking.start)
             booking_date = local_time.date()
             booking_hour = local_time.hour
-            if (booking_hour in calendar) and (booking_date in calendar):
+            if (booking_hour in calendar) and (booking_date in calendar[booking_hour]):
                 calendar[booking_hour][booking_date] = False
         
         context={
@@ -358,7 +359,7 @@ class  BookingView(View):
                 mail_end = "{}時".format(hour+1)
                 subject = "LBASレッスン{}~{}の予約完了".format(mail_start,mail_end)
                 message = "{}様、ご予約ありがとうございます。\n日時: {}~{}\n備考: {}".format(
-                    request.POST.get('email'),
+                    form.cleaned_data['username'],
                     mail_start,
                     mail_end,
                     request.POST.get('remarks')) 
