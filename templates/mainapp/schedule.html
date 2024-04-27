@@ -60,15 +60,17 @@
                             <form method="post"
                                 action="{% url 'mainapp:holiday' datetime.year datetime.month datetime.day booking_hour %}">
                                 {% csrf_token %}
-                                <button class="btn btn-light">空き</button>
+                                <button type="submit" class="btn btn-light">空き</button>
                             </form>
-                            {% else %}
-                            {% if book == None or book == "holiday" %}
-                            <p class="mb-0">休み</p>
 
                             {% else %}
+
+
+                            {% if book != None and book != "休み(主)" %}
+                            {% if book != "休み" %}
                             <p class="mb-0 font-weight-bold text-success">{{ book }}様</p>
-
+                            {% else %}
+                            <p class="mb-0 font-weight-bold ">{{ book }}</p>
                             {% endif %}
                             <form method="post"
                                 action="{% url 'mainapp:delete' datetime.year datetime.month datetime.day booking_hour %}">
@@ -77,6 +79,10 @@
                             </form>
                             {% endif %}
 
+                            {% endif %}
+                            {% if book == None or book == "休み(主)" %}
+                            <p class="mb-0">休み</p>
+                            {% endif %}
                         </td>
                         {% endfor %}
                     </tr>
@@ -91,9 +97,9 @@
 
             </div>
 
-            <div class="col-md-9 mb-4">
-                <div class="card">
-                    <div class="card-body px-2 py-1">
+            <div class="col-md-12 mb-4">
+                <div class="card-booking">
+                    <div class="card-body flex px-2 py-1">
                         <div class="p-4 text-left">
                             <h3>今週の予約</h3>
                             <hr>
@@ -107,7 +113,7 @@
                                 </thead>
                                 <tbody>
                                     {% for booking in booking_data %}
-                                    {% if booking.name != None %}
+                                    {% if booking.name != None and booking.name != "休み" %}
                                     <tr>
                                         <td> {{ booking.email }} </td>
                                         <td>{{ booking.start }}</td>

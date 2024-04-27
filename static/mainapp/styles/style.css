@@ -13,6 +13,7 @@
 
 :root {
   --primary: #f2c2f6;
+  --secondary: #fa1d96;
   --dark: #21252f;
   --body: #888;
   --theme: #f2c2f6;
@@ -48,12 +49,27 @@ h5,
   font-weight: 700;
 }
 
-.navbar h2 a.navbar-brand,
+
 .navbar a,
 .collapse a.nav-link {
-  color: white;
+  color: var(--primary);
   text-decoration: none;
 }
+
+.navbar a,
+.collapse a.nav-link:hover {
+  color: var(--secondary);
+
+}
+
+.navbar h2 a.navbar-brand {
+  color: var(--secondary);
+}
+
+.navbar h2 a.navbar-brand:hover {
+  color: var(--primary);
+}
+
 
 button.navbar-toggler.collapsed {
   background: #fff;
@@ -72,7 +88,7 @@ button.navbar-toggler.collapsed {
 }
 
 .navbar-collapse.collapse.show {
-  background-color: var(--primary);
+  background-color: #fff;
   opacity: 0.9;
 }
 
@@ -86,7 +102,19 @@ button.navbar-toggler.collapsed {
 
 
 .btn-info {
+  color: var(--secondary);
+  background-color: var(--primary);
+  border-color: var(--secondary);
+}
+
+.btn-info:hover {
   color: #fff;
+  background-color: var(--secondary);
+  border-color: var(--primary);
+}
+
+form.dgrid {
+  outline: var(--secondary);
 }
 
 .basket-btn #basket-qty {
@@ -617,13 +645,13 @@ a.custom-btn {
 .btn--orange,
 a.btn--orange {
   color: #fff;
-  background-color: #f56500;
+  background-color: var(--primary);
 }
 
 .btn--orange:hover,
 a.btn--orange:hover {
   color: #fff;
-  background: #f56500;
+  background: var(--primary);
 }
 
 a.btn--radius {
@@ -665,6 +693,14 @@ footer {
   nav .navbar-toggler {
     left: -300px;
   }
+}
+
+.brand {
+  color: var(--primary);
+}
+
+.brand:hover {
+  color: var(--secondary);
 }
 
 .form-signin {
@@ -918,6 +954,7 @@ button.pay h3 {
 }
 
 .dashboard-title {
+  width: 100%;
   border: none;
   border-radius: 15px;
   background-image: url("../dashboard.png");
@@ -1146,6 +1183,7 @@ button.pay h3 {
 
 .card-booking {
   max-width: 800px;
+  width: max-content;
 }
 
 .table-container {
@@ -1160,17 +1198,18 @@ button.pay h3 {
   border: 1px solid #D1DBEB;
   border-radius: 8px;
   border-collapse: separate;
-  overflow: hidden;
+  overflow: scroll;
 }
 
 .booking-table .header {
-  width: 200px;
-  padding: 16px 24px;
+  width: 100px;
+  padding: 16px 12px;
   text-align: left;
   background: #F1F5FA;
 
 }
 
 .booking-table .data {
+  width: fit-content;
   padding: 16px 24px;
 }

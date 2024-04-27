@@ -266,7 +266,7 @@ class CalendarView(View):
             if weekday != 6:
                 start_date = start_date - timedelta(days=weekday + 1)
             return redirect('mainapp:schedule',start_date.year,start_date.month,start_date.day)
-        user = User.objects.get(id=request.user.id)
+        # user = User.objects.get(id=request.user.id)
         today=date.today()
         year = self.kwargs.get('year')
         month = self.kwargs.get('month')
@@ -280,18 +280,26 @@ class CalendarView(View):
         end_day = days[-1]
         
         calendar = {}
-        for hour in range(10,22):
+        for hour in range(10,15):
             row ={}
             
             for day in days:
-                print(day.weekday())
-                if day.weekday() == 0 or day.weekday() == 5:
+                if day.weekday() == 2 or day.weekday() == 4:
+                    row[day] = True
+                else:
+                    row[day] = False
+            calendar[hour] = row
+        for hour in range(19,22):
+            row ={}
+            
+            for day in days:
+                if day.weekday() == 0 or  day.weekday() == 4 or  day.weekday() == 5:
                     row[day] = False
                 else:
                     row[day] = True
             calendar[hour] = row
-        start_time = make_aware(datetime.combine(start_day, time(hour=10,minute=0,second=0)))
-        end_time = make_aware(datetime.combine(end_day, time(hour=20,minute=0,second=0)))
+        # start_time = make_aware(datetime.combine(start_day, time(hour=10,minute=0,second=0)))
+        # end_time = make_aware(datetime.combine(end_day, time(hour=20,minute=0,second=0)))
         #booking_data = Booking.objects.exclude(Q(start__gt=end_time) | Q(end__lt=start_time))
         booking_data = Booking.objects.all()
         for booking in booking_data:
@@ -300,9 +308,9 @@ class CalendarView(View):
             booking_hour = local_time.hour
             if (booking_hour in calendar) and (booking_date in calendar[booking_hour]):
                 calendar[booking_hour][booking_date] = False
-        
+        user_book = Booking.objects.filter(email=request.user)
         context={
-            'user':user,
+            'user_book':user_book,
             'calendar': calendar,
             'today':today,
             'days': days,
@@ -366,7 +374,9 @@ class  BookingView(View):
                 mail_to_customer(request,subject,message)
                 messages.success(request,"予約完了しました。メールをご確認ください。")
                 return redirect('/')
+        
         context = {
+            
             "year":year,
             "month":month,
             "day":day,
@@ -391,17 +401,29 @@ class ScheduleView(LoginRequiredMixin,View):
         end_day = days[-1]
         
         calendar = {}
-        for hour in range(10,22):
+        for hour in range(10,15):
             row ={}
-            for day_ in days:
-                if day_.weekday() == 0 or day_.weekday() == 5:
-                    row[day_] = "holiday" 
+            
+            for day in days:
+               
+                if day.weekday() == 2 or day.weekday() == 4:
+                    row[day] = ""
                 else:
-                    row[day_] = ""
+                    row[day] = "休み(主)"
             calendar[hour] = row
-        start_time = make_aware(datetime.combine(start_day, time(hour=10,minute=0,second=0)))
-        end_time = make_aware(datetime.combine(end_day, time(hour=20,minute=0,second=0)))
-        booking_data = Booking.objects.exclude(Q(start__gt=end_time) | Q(end__lt=start_time))
+        for hour in range(19,22):
+            row ={}
+            
+            for day in days:
+               
+                if day.weekday() == 0 or  day.weekday() == 4 or  day.weekday() == 5:
+                    row[day] = "休み(主)"
+                else:
+                    row[day] = ""
+            calendar[hour] = row
+        # start_time = make_aware(datetime.combine(start_day, time(hour=10,minute=0,second=0)))
+        # end_time = make_aware(datetime.combine(end_day, time(hour=20,minute=0,second=0)))
+        booking_data = Booking.objects.all()
         for booking in booking_data:
             local_time = localtime(booking.start)
             booking_date = local_time.date()
@@ -434,7 +456,7 @@ def holiday(request,year,month,day,hour):
     
         
         Booking.objects.create(
-            
+            name = "休み",
             start = start_time,
             end = end_time,
         )
@@ -457,7 +479,35 @@ def delete(request,year,month,day,hour):
     if weekday != 6:
         start_date = start_date - timedelta(days = weekday +1)
     return redirect('mainapp:schedule',year=start_date.year,month=start_date.month,day=start_date.day) 
+
+def user_schedule(request):
+    booking_data = Booking.objects.filter(email=request.user)
+    context = {
+        'booking_data':booking_data,
+    }
+    return render(request,'mainapp/user_schedule.html',context)
+
+@require_POST
+def user_schedule_delete(request,*args,**kwargs):
+    booking_id = kwargs.get('pk')
+    booking_data = Booking.objects.get(id=booking_id)
     
+    start = localtime(booking_data.start)
+    # booking_date = local_time.date()
+    # booking_hour = local_time.hour
+    remarks = booking_data.remarks
+    
+    booking_data.delete()
+    
+    subject = "予約が取り消されました。"
+    message = "{}様の予約が取り消されました。\n日時: {}\n備考: {}".format(
+                    request.user,
+                    start,
+                    remarks) 
+    mail_to_customer(request,subject,message)
+    
+    return redirect('mainapp:user_schedule') 
+
 def mail_to_customer(request,subject,message):     
     
     email_from = settings.DEFAULT_FROM_EMAIL

@@ -46,6 +46,8 @@ urlpatterns = [
     path('schedule/<int:year>/<int:month>/<int:day>/',views.ScheduleView.as_view(),name='schedule'),
     path('schedule/holiday/<int:year>/<int:month>/<int:day>/<int:hour>',views.holiday,name='holiday'),
     path('schedule/delete/<int:year>/<int:month>/<int:day>/<int:hour>',views.delete,name='delete'),
+    path('schedule/user/',views.user_schedule,name='user_schedule'),
+    path('schedule/user/delete/<int:pk>',views.user_schedule_delete,name='user_schedule_delete'),
    
 
 ]

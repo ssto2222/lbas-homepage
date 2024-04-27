@@ -18,16 +18,16 @@
         <div class="mb-3">
             <h1>予約カレンダー</h1>
             <p>{{ start_day }}~{{ end_day }}</p>
+            <p>前半10:00 ~ 14:00 後半19:00~21:00の時間帯から選択できます。</p>
         </div>
 
         <div class="d-flex mb-2 text-center">
             <div class="mx-3 mr-auto">
-                <a href="{% url 'mainapp:calendar' before.year before.month before.day %}"
-                    class="btn btn-warning">前週</a>
+                <a href="{% url 'mainapp:calendar' before.year before.month before.day %}" class="btn btn-info">前週</a>
             </div>
 
             <div class="mx-3 mr-auto">
-                <a href="{% url 'mainapp:calendar' next.year next.month next.day %}" class="btn btn-warning">次週</a>
+                <a href="{% url 'mainapp:calendar' next.year next.month next.day %}" class="btn btn-info">次週</a>
             </div>
         </div>
         {% if user.is_staff %}
@@ -67,11 +67,57 @@
                                 <i class="fas fa-times text-danger"></i>
                                 {% endif %}
                         </td>
+
                         {% endfor %}
                     </tr>
+
                     {% endfor %}
+
                 </tbody>
             </table>
+        </div>
+        <div class="container text-center">
+            <div class="row">
+
+                <div class="col-md-12 mb-4">
+                    <div class="card">
+                        <div class="card-body px-2 py-1">
+                            <div class="p-4 text-left">
+                                <h3>予約内容</h3>
+                                <hr>
+                                <table class="table">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>予約名</th>
+                                            <th>開始時刻</th>
+                                            <th>終了時刻</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for booking in user_book %}
+                                        {% if booking.name != None %}
+                                        <tr>
+                                            <form method="post"
+                                                action="{% url 'mainapp:user_schedule_delete' booking.id %}">
+                                                {% csrf_token %}
+                                                <td> {{ booking.name }} </td>
+                                                <td>{{ booking.start }}</td>
+                                                <td>{{ booking.end }}</td>
+                                                <td><button type="submit" class="btn btn-danger">取消し</button></td>
+                                            </form>
+
+                                        </tr>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </div>
