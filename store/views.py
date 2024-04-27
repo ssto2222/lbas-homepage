@@ -21,6 +21,16 @@ def product_all(req):
     context = {'products': products,'categories':categories}
     return render(req, 'store/home.html', context)
 
+def stripe(req):
+    context = {}
+    return render(req, 'store/stripe.html', context)
+
+def paypay(req):
+    products = Product.objects.all()
+    categories = Category.objects.all()
+    context = {'products': products,'categories':categories}
+    return render(req, 'store/paypay.html', context)
+
 def product_single(req,slug):
     product = get_object_or_404(Product,slug=slug, in_stock=True)
     context = {'product': product}

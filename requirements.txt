@@ -12,3 +12,4 @@ stripe
 six
 pillow
 django-widget-tweaks
+paypayopa

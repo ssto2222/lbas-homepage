@@ -12,40 +12,37 @@
         <div class="row">
 
             <div class="col-md-12 mb-4">
-                <div class="card">
-                    <div class="card-body px-2 py-1">
-                        <div class="p-4 text-left">
-                            <h3>予約内容</h3>
-                            <hr>
-                            <table class="table">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>予約名</th>
-                                        <th>開始時刻</th>
-                                        <th>終了時刻</th>
 
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for booking in booking_data %}
-                                    {% if booking.name != None %}
-                                    <tr>
-                                        <form method="post"
-                                            action="{% url 'mainapp:user_schedule_delete' booking.id %}">
-                                            {% csrf_token %}
-                                            <td> {{ booking.name }} </td>
-                                            <td>{{ booking.start }}</td>
-                                            <td>{{ booking.end }}</td>
-                                            <td><button type="submit" class="btn btn-danger">取消し</button></td>
-                                        </form>
+                <div class=" text-left">
+                    <h3>予約内容</h3>
+                    <hr>
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>予約名</th>
+                                <th>開始時刻</th>
+                                <th>終了時刻</th>
 
-                                    </tr>
-                                    {% endif %}
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for booking in booking_data %}
+                            {% if booking.name != None %}
+                            <tr>
+                                <form method="post" action="{% url 'mainapp:user_schedule_delete' booking.id %}">
+                                    {% csrf_token %}
+                                    <td> {{ booking.name }} </td>
+                                    <td>{{ booking.start }}</td>
+                                    <td>{{ booking.end }}</td>
+                                    <td><button type="submit" class="btn btn-danger">取消し</button></td>
+                                </form>
+
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
                 </div>
             </div>
         </div>

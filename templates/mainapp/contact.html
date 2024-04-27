@@ -25,16 +25,16 @@
     <form method="POST" class="row g-3 justify-content-center">
       {% csrf_token %}
       <div class="col-md-5">
-        <input type="text" name="name" class="form-control" placeholder="お名前">
+        <input type="text" name="name" class="form-control" placeholder="お名前" required>
       </div>
       <div class="col-md-5">
-        <input type="email" name="email" class="form-control" placeholder="email アドレス">
+        <input type="email" name="email" class="form-control" placeholder="email アドレス" required>
       </div>
       <div class="col-md-10">
-        <input type="text" name="subject" class="form-control" placeholder="件名">
+        <input type="text" name="subject" class="form-control" placeholder="件名" required>
       </div>
       <div class="col-md-10">
-        <textarea rows="5" name="content" class="form-control" placeholder="お問合せ内容をご記入ください"></textarea>
+        <textarea rows="5" name="content" class="form-control" placeholder="お問合せ内容をご記入ください" required></textarea>
       </div>
       <div class="col-md-10 d-grid">
         <button type="submit" class="btn btn-info">Contact</button>

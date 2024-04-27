@@ -12,28 +12,41 @@
 
     <!-- {% include './snippets/dropdown.html'%} -->
     <div class="container mt-3">
-        <p>※写真はイメージです。</p>
-        <div class="pb-3 h5">
-            <div class="row g-3">
-                <stripe-pricing-table pricing-table-id="prctbl_1P8II3HVLrKePmGrwhnUz6hK"
-                    publishable-key="pk_live_51P7vi4HVLrKePmGrTvFaGajiXJ33Z3tKODwfSvPPdKetiJ8pj9LlVBscTuq2trWC0vXbrNlYIz1NW28oxTga0BCm00T8vgBfPt">
-                </stripe-pricing-table>
-                {% for product in products %}
-                <div class="col-lg-3 col-sm-6">
-                    <div class="service-item card-effect text-center">
-                        <img src="{{product.image.url}}" alt="Responsice image" class="img-fluid">
-                        <h5 class="mt-2"><a href="{% url 'store:product_single' product.slug %}"
-                                class="text-dark text-decoration-none">{{product.title}}</a></h5>
-                        <p>{{product.description}}</p>
-                        <small class="text-muted">9min read</small>
 
-                    </div>
-                </div>
-                {% endfor %}
+        <div class="row button-container" id="pay_selection">
+            <div class="row flex col-md-12">
+                <form action="{% url 'store:stripe' %}" method="get">
+                    <button type="submit" class="pay col-md-6 card-effect text-center">
+                        <h3>クレジットカード</h3>
+                        <div class="row ">
+                            <div class="pay-img col-md-12">
+                                <img class="credit-card" src="{% static 'payment/credit-card-regular-168.png'%}" alt="">
+                            </div>
+                        </div>
+
+                    </button>
+                </form>
+
+                <form action="{% url 'store:paypay' %}" method="get">
+                    <button type="submit" class="pay col-md-6 card-effect text-center">
+
+                        <h3>PayPay</h3>
+
+                        <div class="row apple">
+                            <div class="pay-img col-md-12">
+                                <img class="paypay" src="{% static 'payment/img_logo_2.jpg'%}" alt="pay_pay">
+                            </div>
+
+                        </div>
+
+                    </button>
+                </form>
             </div>
+
         </div>
+
+
     </div>
-</div>
 
 
 </div>

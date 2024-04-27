@@ -97,36 +97,35 @@
 
             </div>
 
-            <div class="col-md-12 mb-4">
-                <div class="card-booking">
-                    <div class="card-body flex px-2 py-1">
-                        <div class="p-4 text-left">
-                            <h3>今週の予約</h3>
-                            <hr>
-                            <table class="table">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>お客様</th>
-                                        <th>開始時刻</th>
-                                        <th>終了時刻</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for booking in booking_data %}
-                                    {% if booking.name != None and booking.name != "休み" %}
-                                    <tr>
-                                        <td> {{ booking.email }} </td>
-                                        <td>{{ booking.start }}</td>
-                                        <td>{{ booking.end }}</td>
-                                    </tr>
-                                    {% endif %}
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
+            <div class="card-booking">
+                <div class="card-body flex px-2 py-1">
+                    <div class="p-4 text-left">
+                        <h3>今週の予約</h3>
+                        <hr>
+                        <table class="table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>お客様</th>
+                                    <th>開始時刻</th>
+                                    <th>終了時刻</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for booking in booking_data %}
+                                {% if booking.name != None and booking.name != "休み" %}
+                                <tr>
+                                    <td> {{ booking.email }} </td>
+                                    <td>{{ booking.start }}</td>
+                                    <td>{{ booking.end }}</td>
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
+
         </div>
 
     </div>
