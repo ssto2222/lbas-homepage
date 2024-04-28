@@ -13,35 +13,35 @@
     <!-- {% include './snippets/dropdown.html'%} -->
     <div class="container mt-3">
 
-        <div class="row button-container" id="pay_selection">
-            <div class="row flex col-md-12">
-                <form action="{% url 'store:stripe' %}" method="get">
-                    <button type="submit" class="pay col-md-6 card-effect text-center">
-                        <h3>クレジットカード</h3>
-                        <div class="row ">
-                            <div class="pay-img col-md-12">
-                                <img class="credit-card" src="{% static 'payment/credit-card-regular-168.png'%}" alt="">
-                            </div>
+        <div class=" button-container-service" id="pay_selection">
+
+            <form class="card-service" action="{% url 'store:stripe' %}" method="get">
+                <button type="submit" class="pay col-md-6 card-effect text-center">
+                    <h3>クレジットカード</h3>
+                    <div class="row ">
+                        <div class="pay-img col-md-6 col-sm-12">
+                            <img class="credit-card" src="{% static 'payment/credit-card-regular-168.png'%}" alt="">
+                        </div>
+                    </div>
+
+                </button>
+            </form>
+
+            <form class="card-service" action="{% url 'store:paypay' %}" method="get">
+                <button type="submit" class="pay col-md-6 card-effect text-center">
+
+                    <h3>PayPay</h3>
+
+                    <div class="row apple">
+                        <div class="pay-img col-md-6 col-sm-12">
+                            <img class="paypay" src="{% static 'payment/img_logo_2.jpg'%}" alt="pay_pay">
                         </div>
 
-                    </button>
-                </form>
+                    </div>
 
-                <form action="{% url 'store:paypay' %}" method="get">
-                    <button type="submit" class="pay col-md-6 card-effect text-center">
+                </button>
+            </form>
 
-                        <h3>PayPay</h3>
-
-                        <div class="row apple">
-                            <div class="pay-img col-md-12">
-                                <img class="paypay" src="{% static 'payment/img_logo_2.jpg'%}" alt="pay_pay">
-                            </div>
-
-                        </div>
-
-                    </button>
-                </form>
-            </div>
 
         </div>
 

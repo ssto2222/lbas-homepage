@@ -1,0 +1,64 @@
+{% extends "mainapp/base_index.html" %} {% load static %}{%load humanize%} {% block content %}
+
+<div class="page-top"></div>
+<div class="container " style="max-width: 1000px">
+    <div class="flex align-items-center dashboard-title my-3 py-3">
+        <h1 class="page-top-title">顧客の登録状況</h1>
+        <div class="px-5 text-white"><b>どのお客様がどのコースを登録しているかを表示する。</div>
+
+    </div>
+
+    <div class="container text-center">
+        <div class="row">
+
+            <div class="col-md-12 mb-4">
+
+                <div class=" text-left">
+                    <h3>購入履歴</h3>
+                    <hr>
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>顧客名</th>
+                                <th>stripe_id</th>
+                                <th>購入日</th>
+                                <th>商品名</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for transaction in transactions %}
+                            <tr>
+
+                                {% csrf_token %}
+                                <td> {{ transaction.email }} </td>
+                                <td>{{ transaction.customer_id }}</td>
+                                <td>{{ transaction.purchase_date }}</td>
+                                <td>{{ transaction.item }}</td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+    <hr />
+</div>
+
+
+{% endblock %}

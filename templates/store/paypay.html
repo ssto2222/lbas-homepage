@@ -1,4 +1,4 @@
-{% extends '../mainapp/base_index.html' %}{% load static %}
+{% extends '../mainapp/base_index.html' %}{% load static %}{% load humanize %}
 
 {% block content%}
 <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
@@ -16,13 +16,17 @@
         <div class="pb-3 h5">
             <div class="row g-3">
                 {% for product in products %}
-                <div class="col-lg-3 col-sm-6">
-                    <div class="service-item card-effect text-center">
+                <div class="product-card mb-3 col-lg-8 col-sm-12">
+                    <div class="service-item card-effect ">
                         <img src="{{product.image.url}}" alt="Responsice image" class="img-fluid">
                         <h5 class="mt-2"><a href="{% url 'store:product_single' product.slug %}"
                                 class="text-dark text-decoration-none">{{product.title}}</a></h5>
                         <p>{{product.description}}</p>
-                        <small class="text-muted">9min read</small>
+                        <div class="order-group d-flex">
+                            <h5 class="text-muted">¥{{ product.price|intcomma }}</h5>
+                            <button class="btn-purchase btn btn-info">購入</button>
+                        </div>
+
 
                     </div>
                 </div>

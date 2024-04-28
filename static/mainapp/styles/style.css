@@ -878,15 +878,20 @@ span .small {
   border-radius: 100%;
 }
 
+.product-card {
+  margin: auto;
+}
+
 .service-item {
-  height: 250px;
+  height: fit-content;
   width: 100%;
+  overflow-wrap: wrap;
 }
 
 .service-item img {
   width: 125px;
   height: 125px;
-  border-radius: 100%;
+
 }
 
 .pay.card-effect {
@@ -1037,6 +1042,18 @@ button.pay h3 {
   left: 0;
   background-color: rgba(1, 1, 1, 0.7);
   z-index: -3;
+}
+
+.button-container-service {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.card-service {
+
+  width: 100px;
+  flex: 1;
 }
 
 

@@ -9,12 +9,30 @@
     </div>
     <div class="dashbord-container">
         <div class="col-6 mb-3">
+            {% if is_admin %}
+            <a type='button' class="btn btn-dashboard" href="/admin">
+                <i class='bx bxs-user-account iconarea'></i>
+                <span class="ms-5">アドミニページ</span>
+            </a>
+
+            {% else %}
             <a type='button' class="btn btn-dashboard" href="{% url  'mainapp:account' %}">
                 <i class='bx bxs-user-account iconarea'></i>
                 <span class="ms-5">アカウント情報</span>
             </a>
+            {% endif %}
 
         </div>
+        {% if is_admin %}
+        <div class="col-6 mb-3">
+
+            <a type='button' class="btn btn-dashboard" href="{% url 'mainapp:registration' %}">
+                <i class='bx bxs-user-account iconarea'></i>
+                <span class="ms-5">お客様登録情報</span>
+            </a>
+        </div>
+        {%endif%}
+
         <div class="col-6 ">
             <a type='button' class="btn btn-dashboard" href="{% url  'mainapp:user_schedule' %}">
                 <i class='bx bxs-book iconarea'></i>

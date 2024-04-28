@@ -26,7 +26,7 @@ from django.utils.timezone import localtime, make_aware
 from orders.views import user_orders
 from booking.form import BookingForm
 from django.views.decorators.http import require_POST
-
+import stripe
 import os
 
 
@@ -113,6 +113,12 @@ def dashboard(request):
     except:
         print('no orders')
     
+    is_admin = False
+    user = User.objects.get(email=request.user.email)
+    if user.is_admin == True:
+        is_admin = True
+    
+    context = { 'is_admin': is_admin}
    
     return render(request,'mainapp/dashboard.html',context)
 
@@ -508,6 +514,51 @@ def user_schedule_delete(request,*args,**kwargs):
     
     return redirect('mainapp:user_schedule') 
 
+#顧客の購入リストを表示
+@login_required
+def registration(req):
+    stripe.api_key = "sk_test_51P7vi4HVLrKePmGr3Is1klGao7eVOxBwP4zQYRF36XHsHmueHVRHxDbvofKlGpUu6fr0NTLvUHjBfvM3bkEXW2NF00AbkIWfhS"
+    try:
+        transactions = stripe.Charge.list()
+      
+        #transaction_data = transactions.data
+    except:
+        print("no transactions")
+    transaction_list = []
+    
+    count=0
+    print(transactions.data)
+    for transaction in transactions.data:
+        
+        transactions_data = {}
+        try:
+            count+=1
+            if transaction.customer == None:
+                customer_id = ""
+            else:
+                customer_id = transaction.customer
+            email = transaction.billing_details.email
+            purchase_date=datetime.fromtimestamp(transaction.created)
+            item = transaction.amount
+            transactions_data["email"] = email
+            transactions_data["customer_id"] = customer_id
+            transactions_data["purchase_date"] = purchase_date
+            transactions_data["item"]=item
+            transaction_list.append(transactions_data) 
+            print(email)
+            
+        except:
+            print("No billing details")
+            
+    print(transaction_list)   
+    
+    print(count)
+    context = {
+          "transactions":transaction_list
+        }
+   
+    return render(req, 'mainapp/registration.html',context)
+
 def mail_to_customer(request,subject,message):     
     
     email_from = settings.DEFAULT_FROM_EMAIL
@@ -523,3 +574,5 @@ def mail_to_customer(request,subject,message):
                 email_to,
                 fail_silently=True,
                 )
+    
+    

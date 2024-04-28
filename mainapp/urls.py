@@ -38,6 +38,7 @@ urlpatterns = [
     path('account/', views.account, name='account'),
     path('account_update/', views.account_update, name='account_update'),
     path('dashboard/',views.dashboard,name='dashboard'),
+    path('dashboard/registration',views.registration,name='registration'),
     path('contact/', views.contact,name='contact'),
     path('privacy/', views.privacy,name='privacy'),
     path('calendar/',views.CalendarView.as_view(),name='calendar'),
@@ -51,3 +52,6 @@ urlpatterns = [
    
 
 ]
+
+if settings.DEBUG:
+     urlpatterns += static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)

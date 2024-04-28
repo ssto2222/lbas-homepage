@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render
-
+from config import settings
 from .models import  Category, Product
 
 def categories(req):
@@ -22,7 +22,13 @@ def product_all(req):
     return render(req, 'store/home.html', context)
 
 def stripe(req):
-    context = {}
+    #pricing_table_id = "prctbl_1P8II3HVLrKePmGrwhnUz6hK" #live
+    STRIPE_SECRET_KEY = "sk_test_51P7vi4HVLrKePmGr3Is1klGao7eVOxBwP4zQYRF36XHsHmueHVRHxDbvofKlGpUu6fr0NTLvUHjBfvM3bkEXW2NF00AbkIWfhS"
+    pricing_table_id = "prctbl_1P8H8yHVLrKePmGrBQIbXfll" #test
+    context = {
+        "published_key":"pk_test_51P7vi4HVLrKePmGrQSNhfZYtIMes8WpbUWOQ9NJxGcJRshUECb1RfyaWc1wgzpyIOxcgbng631trUKRdojyWC0cj00zvXi9Lnw",
+        "pricing_table_id" : pricing_table_id,
+               }
     return render(req, 'store/stripe.html', context)
 
 def paypay(req):
