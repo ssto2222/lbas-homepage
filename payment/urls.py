@@ -17,4 +17,5 @@ urlpatterns = [
     path('order_placed/', views.order_placed, name='order_placed'),
     path('error/', views.Error.as_view(), name='error'),
     path('webhook/', views.stripe_webhook),
+    path('purchase_paypay/<slug:product_slug>/', views.purchase_paypay,name='purchase_paypay'),
 ]

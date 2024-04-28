@@ -237,6 +237,10 @@ def privacy(request):
     context={}
     return render(request, 'mainapp/privacy.html',context)
 
+def com_transaction(request):
+    context={}
+    return render(request, 'mainapp/marchant_law.html',context)
+
 @csrf_exempt
 def quotation(request):
     context={}

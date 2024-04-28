@@ -41,6 +41,7 @@ urlpatterns = [
     path('dashboard/registration',views.registration,name='registration'),
     path('contact/', views.contact,name='contact'),
     path('privacy/', views.privacy,name='privacy'),
+    path('commercial-transaction/', views.com_transaction,name='com_transaction'),
     path('calendar/',views.CalendarView.as_view(),name='calendar'),
     path('calendar/<int:year>/<int:month>/<int:day>',views.CalendarView.as_view(),name='calendar'),
     path('booking/<int:year>/<int:month>/<int:day>/<int:hour>',views.BookingView.as_view(),name='booking'),

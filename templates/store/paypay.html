@@ -23,8 +23,14 @@
                                 class="text-dark text-decoration-none">{{product.title}}</a></h5>
                         <p>{{product.description}}</p>
                         <div class="order-group d-flex">
-                            <h5 class="text-muted">¥{{ product.price|intcomma }}</h5>
-                            <button class="btn-purchase btn btn-info">購入</button>
+                            {% with str_number=product.price %}
+                            {% with int_number=str_number|add:"0" %}
+                            <h5 class="text-muted">¥{{ int_number|intcomma }}</h5>
+                            {% endwith %}
+                            {% endwith %}
+
+                            <button class="btn-purchase btn btn-info"><a
+                                    href="{% url 'payment:purchase_paypay' product.slug %}">購入</a></button>
                         </div>
 
 

@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -9,10 +9,11 @@ from django.core.mail import send_mail
 from django.views.generic import View
 from django.views.generic.base import TemplateView
 #from orders.views import payment_confirmation
-
+from store.models import Product
 from basket.basket import Basket
 import os,json
 import stripe
+import paypayopa
 
 def order_placed(request):
     basket = Basket(request)
@@ -196,4 +197,13 @@ def card(request):
 def checkout_complete(request):
     context={}
     return render(request,'payment/thankyou.html',context)
+
+def purchase_paypay(req, product_slug):
+    product = get_object_or_404(Product,slug=product_slug)
+    client = paypayopa.Client(auth=(API_KEY, API_SECRET), production_mode=False)
+    client.set_assume_merchant("MERCHANT_ID")
     
+    context = { 
+               'product':product
+               }
+    return render(req,'payment/checkout_paypay.html',context) 

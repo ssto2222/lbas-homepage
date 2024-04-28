@@ -49,6 +49,9 @@ h5,
   font-weight: 700;
 }
 
+.text-info {
+  color: var(--primary);
+}
 
 .navbar a,
 .collapse a.nav-link {
@@ -157,7 +160,7 @@ ul.hero-ul li {
 }
 
 .page-top {
-  padding: 50px;
+  padding: 58px;
 }
 
 .page-title {
@@ -879,7 +882,23 @@ span .small {
 }
 
 .product-card {
-  margin: auto;
+  width: 45%;
+  margin: 10px;
+  float: left;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.product-card.service-item {
+  width: 100%;
+}
+
+@media screen and (max-width:768px) {
+  .product-card {
+    width: 100%;
+    float: none;
+    margin: 10px auto;
+  }
 }
 
 .service-item {
@@ -894,11 +913,47 @@ span .small {
 
 }
 
+.card-service {
+  width: 45%;
+  margin: 10px;
+  float: left;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width:768px) {
+  .card-service {
+    width: 90%;
+    float: none;
+    margin: 10px auto;
+  }
+}
+
 .pay.card-effect {
   display: block;
   max-width: 250px;
   border: 2px solid #ccc;
   border-radius: 5px;
+}
+
+
+
+.btn-purchase {
+  color: var(--secondary);
+  background-color: var(--primary);
+  border-color: var(--secondary);
+  margin: auto;
+}
+
+.btn-purchase a {
+  text-decoration: none;
+  color: var(--secondary);
+}
+
+.btn-purchase:hover {
+  color: #fff;
+  background-color: var(--secondary);
+  border-color: var(--primary);
 }
 
 
@@ -1048,12 +1103,6 @@ button.pay h3 {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-}
-
-.card-service {
-
-  width: 100px;
-  flex: 1;
 }
 
 
