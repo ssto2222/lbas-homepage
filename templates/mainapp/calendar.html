@@ -36,7 +36,7 @@
 
             <div class="table-container text-center">
 
-                <table class="table-calendar table-bordered bg-light">
+                <table class="table table-bordered bg-light">
                     <thead class="thead-light">
                         <tr>
                             <th></th>
@@ -81,6 +81,7 @@
             <div class="mt-4  text-left">
                 <h3>予約内容</h3>
                 <hr>
+                {% if userbook %}
                 <table class="table">
                     <thead class="thead-light">
                         <tr>
@@ -107,6 +108,9 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                {% else %}
+                <p>現在予約はありません。</p>
+                {% endif %}
             </div>
 
 

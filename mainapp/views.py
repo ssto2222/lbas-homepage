@@ -521,7 +521,7 @@ def user_schedule_delete(request,*args,**kwargs):
 #顧客の購入リストを表示
 @login_required
 def registration(req):
-    stripe.api_key = "sk_test_51P7vi4HVLrKePmGr3Is1klGao7eVOxBwP4zQYRF36XHsHmueHVRHxDbvofKlGpUu6fr0NTLvUHjBfvM3bkEXW2NF00AbkIWfhS"
+    stripe.api_key = settings.STRIPE_SECRET_KEY
     try:
         transactions = stripe.Charge.list()
       
