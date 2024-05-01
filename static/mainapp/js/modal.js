@@ -12,11 +12,18 @@ clickArea.onclick = function (event) {
 
     // モーダルの高さと画面の高さを取得
     var modalHeight = modalContent.offsetHeight;
+
     var windowHeight = window.innerHeight;
+    var modalWidth = modalContent.offsetWidth;
+    console.log(modalWidth)
+    var windowWidth = window.innerWidth;
 
     // 画面の下端にモーダルがはみ出さないように調整
     if (y + modalHeight > windowHeight) {
         y = windowHeight - modalHeight; // モーダルが画面下端に収まるように調整
+    }
+    if (x + modalWidth > windowWidth) {
+        x = windowWidth - modalWidth; // モーダルが画面下端に収まるように調整
     }
 
     modal.style.left = x + "px";
