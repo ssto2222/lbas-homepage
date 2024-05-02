@@ -44,7 +44,7 @@
       </div>
       <div class="col-md-7 col-lg-8">
         <h4 class="mb-3">お支払い情報</h4>
-        <form class="needs-validation" id="payment-form" action="{%url 'orders:add' %}">
+        <form class="needs-validation" id="payment-form" action="{%url 'payment:checkout_paypay_complete' %}">
           {% csrf_token %}
           <div class="row g-3">
             <div class="col-sm-12">

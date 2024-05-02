@@ -10,6 +10,8 @@ from django.views.generic import View
 from django.views.generic.base import TemplateView
 #from orders.views import payment_confirmation
 from store.models import Product
+from mainapp.models.profile_models import Profile
+from orders.models import Order
 from basket.basket import Basket
 import os,json
 import stripe
@@ -207,3 +209,54 @@ def purchase_paypay(req, product_slug):
                'product':product
                }
     return render(req,'payment/checkout_paypay.html',context) 
+
+
+@login_required
+def checkout_paypay(request,product_slug):
+    product = Product.objects.get(slug=product_slug)
+        
+    context={ 'product':product,
+                'amount':product.price,
+                'amount_text':str(product.price),
+                'customer_email':request.user.email,
+                }
+    return render(request,'payment/checkout_paypay.html',context)
+
+
+@login_required
+def checkout_paypay_complete(request):
+    if request.POST.get('action') == 'post':
+
+        order_key = request.POST.get('order_key')
+        user_id = request.user.id
+        fullname = request.POST.get('fullname')
+        add1 = request.POST.get('add1')
+        add2 = request.POST.get('add2')
+        postcode = request.POST.get('postcode')
+        ordertotal = request.POST.get('amount')
+        
+        profile = Profile.objects.get(user=request.user)
+        
+        
+        #Check if order exists
+        if Order.objects.filter(order_key=order_key).exists():
+            pass
+        else:
+            Order.objects.create(user_id=user_id,
+                                         #deadline=datetime(date),
+                                        full_name=fullname, 
+                                        address1=add1,
+                                        address2=add2, 
+                                        post_code=postcode,
+                                        order_total=ordertotal,
+                                        order_key=order_key)
+
+        response = JsonResponse({'success': 'Adding oder to the list succeeded'})
+       
+        return response
+    
+        
+    context={ 
+                }
+    return render(request,'payment/paypay.html',context)
+   

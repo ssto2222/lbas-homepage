@@ -18,4 +18,6 @@ urlpatterns = [
     path('error/', views.Error.as_view(), name='error'),
     path('webhook/', views.stripe_webhook),
     path('purchase_paypay/<slug:product_slug>/', views.purchase_paypay,name='purchase_paypay'),
+    path('checkout_paypay/<slug:product_slug>/', views.checkout_paypay,name='checkout_paypay'),
+    path('checkout_paypay_complete/', views.checkout_paypay_complete,name='checkout_paypay_complete'),
 ]
